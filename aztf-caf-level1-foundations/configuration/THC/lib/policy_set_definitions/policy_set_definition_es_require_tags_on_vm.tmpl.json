@@ -1,0 +1,119 @@
+{
+    "name": "Require-Tags-VM",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+      "policyType": "Custom",
+      "displayName": "Require the tags on the VM",
+      "description": "Require the tags on the VM(Role,PatchingSchedule,BackupPolicy,ASREnabled,BrandName,Billing,InternetAccess,Description,Replication)",
+      "metadata": {
+        "version": "1.0.0",
+        "category": "Tags"
+      },
+      "parameters": {},
+      "policyDefinitions": [
+        {
+          "policyDefinitionReferenceId": "RequireRoleTag",
+          "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/msp-root/providers/Microsoft.Authorization/policyDefinitions/Require-Tags-VM",
+          "parameters": {
+            "tagName": {
+              "value": "Role"
+            }
+          },
+          "groupNames": []
+        },
+        {
+            "policyDefinitionReferenceId": "RequirePatchingScheduleTag",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/msp-root/providers/Microsoft.Authorization/policyDefinitions/Require-Tags-VM",
+            "parameters": {
+              "tagName": {
+                "value": "PatchingSchedule"
+              }
+            },
+            "groupNames": []
+        },
+        {
+            "policyDefinitionReferenceId": "RequireBackupPolicyTag",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/msp-root/providers/Microsoft.Authorization/policyDefinitions/Require-Tags-VM",
+            "parameters": {
+              "tagName": {
+                "value": "BackupPolicy"
+              }
+            },
+            "groupNames": []
+        },
+        {
+            "policyDefinitionReferenceId": "RequireASREnabledTag",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/msp-root/providers/Microsoft.Authorization/policyDefinitions/Require-Tags-VM",
+            "parameters": {
+              "tagName": {
+                  "value": "ASREnabled"
+                }
+            },
+            "groupNames": []
+        },
+        {
+            "policyDefinitionReferenceId": "RequireBusinessHoursTag",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/msp-root/providers/Microsoft.Authorization/policyDefinitions/Require-Tags-VM",
+            "parameters": {
+              "tagName": {
+                  "value": "BusinessHours"
+                }
+            },
+            "groupNames": []
+        },
+        {
+            "policyDefinitionReferenceId": "RequireBillingTag",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/msp-root/providers/Microsoft.Authorization/policyDefinitions/Require-Tags-VM",
+            "parameters": {
+              "tagName": {
+                  "value": "Billing"
+                }
+            },
+            "groupNames": []
+        },
+        {
+            "policyDefinitionReferenceId": "RequireInternetAccessTag",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/msp-root/providers/Microsoft.Authorization/policyDefinitions/Require-Tags-VM",
+            "parameters": {
+              "tagName": {
+                  "value": "InternetAccess"
+                }
+            },
+            "groupNames": []
+        },
+        {
+            "policyDefinitionReferenceId": "RequireSupportedByTag",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/msp-root/providers/Microsoft.Authorization/policyDefinitions/Require-Tags-VM",
+            "parameters": {
+              "tagName": {
+                  "value": "SupportedBy"
+                }
+            },
+            "groupNames": []
+        },
+        {
+            "policyDefinitionReferenceId": "RequireMPGTicketRefTag",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/msp-root/providers/Microsoft.Authorization/policyDefinitions/Require-Tags-VM",
+            "parameters": {
+              "tagName": {
+                  "value": "MPGTicketRef"
+                }
+            },
+            "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "RequireLBNameTag",
+          "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/msp-root/providers/Microsoft.Authorization/policyDefinitions/Require-Tags-VM",
+          "parameters": {
+            "tagName": {
+                "value": "LBName"
+              }
+          },
+          "groupNames": []
+        }
+      ],
+      "policyDefinitionGroups": null
+    }
+  }

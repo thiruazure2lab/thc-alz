@@ -1,0 +1,18 @@
+{
+    "name": "Deploy-MDefenderEndpoints",
+    "type": "Microsoft.Authorization/policyAssignments",
+    "apiVersion": "2019-09-01",
+    "properties": {
+      "description": "Deploy Microsoft Defender for Endpoint agent on applicable images.",
+      "displayName": "[Preview]: Deploy Microsoft Defender for Endpoint agent",
+      "notScopes": [],
+      "parameters": {},
+      "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/e20d08c5-6d64-656d-6465-ce9e37fd0ebc",
+      "scope": "${current_scope_resource_id}",
+      "enforcementMode": null
+    },
+    "location": "${default_location}",
+    "identity": {
+      "type": "None"
+    }
+  }

@@ -1,0 +1,32 @@
+{
+    "name": "47a0811c-862b-e418-5093-de22e72ce899",
+    "type": "Microsoft.Authorization/roleDefinitions",
+    "apiVersion": "2018-01-01-preview",
+    "properties": {
+      "roleName": "RBAC-CLDRKS",
+      "description": "Only security team members will have access in this role for accesing security resources",
+      "type": "customRole",
+      "permissions": [
+        {
+          "actions": [
+                      
+                      "Microsoft.Authorization/*/read",
+                      "Microsoft.Insights/*/read",
+                      "Microsoft.operationalInsights/workspaces/*/read",
+                      "Microsoft.Resources/deployments/*/read",
+                      "Microsoft.Resources/subscriptions/*/read",
+                      "Microsoft.Security/*/read",
+                      "Microsoft.Support/*/read",
+                      "Microsoft.Management/managementGroups/read",
+                      "Microsoft.OperationalInsights/*/read",
+                      "Microsoft.ManagedIdentity/*/read"                  ],
+          "notActions": [],
+          "dataActions": [],
+          "notDataActions": []
+        }
+      ],
+      "assignableScopes": [
+        "${current_scope_resource_id}"
+      ]
+    }
+  }

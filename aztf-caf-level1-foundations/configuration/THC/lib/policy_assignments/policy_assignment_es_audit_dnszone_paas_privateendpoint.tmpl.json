@@ -1,0 +1,18 @@
+{
+  "name": "Audit-DNSZone-PAAS",
+  "type": "Microsoft.Authorization/policyAssignments",
+  "apiVersion": "2019-09-01",
+  "properties": {
+    "displayName": "Audit DNS Zone Group Configurations for Azure PaaS Private Endpoints",
+    "description": "Audit DNS Zone Group Configurations for Azure PaaS Private Endpoints(SQL,Key Vault, Storage-Table/File/Queue/Blob)",
+    "notScopes": [],
+    "parameters": {},
+    "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/msp-root/providers/Microsoft.Authorization/policySetDefinitions/Audit-DNSZone-PAAS",
+    "scope": "${current_scope_resource_id}",
+    "enforcementMode": null
+  },
+  "location": "${default_location}",
+  "identity": {
+    "type": "SystemAssigned"
+  }
+}

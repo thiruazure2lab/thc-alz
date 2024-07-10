@@ -1,0 +1,37 @@
+{
+    "name": "846bc1b5-8b14-64ca-4310-92c98fe58d8c",
+    "type": "Microsoft.Authorization/roleDefinitions",
+    "apiVersion": "2018-01-01-preview",
+    "properties": {
+      "roleName": "RBAC-CLDOPS-L1",
+      "description": "With this role user can view resource in subscription and perform basic activity",
+      "type": "customRole",
+      "permissions": [
+        {
+          "actions": [
+            "*/read"
+                    ],
+          "notActions": [],
+          "dataActions": [
+                   "Microsoft.Compute/virtualMachines/login/action",
+                   "Microsoft.Compute/virtualMachines/loginAsAdmin/action",
+                   "Microsoft.HybridCompute/machines/login/action",
+                   "Microsoft.HybridCompute/machines/loginAsAdmin/action",
+                   "Microsoft.Compute/virtualMachines/restart/action",
+                   "Microsoft.Compute/virtualMachines/start/action",
+                   "Microsoft.RecoveryServices/Vaults/backupFabrics/protectionContainers/protectedItems/backup/action"
+  
+            ],
+          "notDataActions": []
+        }
+      ],
+      "assignableScopes": [
+        "/subscriptions/f813424b-2ed9-48b2-bcc4-d31d4fb31465",
+        "/subscriptions/2303c1c1-58e1-45bb-976a-05185db1909d",
+        "/subscriptions/4e8fba9a-9170-45dc-9cea-5c03d95ba729",
+        "/subscriptions/bd58396b-8bb9-4f24-a898-fdb18eec40b6",
+        "/subscriptions/46346997-755b-40dd-a056-50f76f2b13dc",
+        "/subscriptions/ac8b78f7-922e-4a95-8b0a-6dea944cc7b7"
+      ]
+    }
+  }

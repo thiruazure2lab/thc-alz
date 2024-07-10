@@ -1,0 +1,18 @@
+{
+    "name": "Resources_Zone_Resilient",
+    "type": "Microsoft.Authorization/policyAssignments",
+    "apiVersion": "2019-09-01",
+    "properties": {
+      "description": "Some resource types can be deployed Zone Redundant (e.g. SQL Databases); some can be deploy Zone Aligned (e.g. Virtual Machines); and some can be deployed either Zone Aligned or Zone Redundant (e.g. Virtual Machine Scale Sets). Being zone aligned does not guarantee resilience, but it is the foundation on which a resilient solution can be built (e.g. three Virtual Machine Scale Sets zone aligned to three different zones in the same region with a load balancer). See https://aka.ms/AZResilience for more info.",
+      "displayName": "[Preview]: Resources should be Zone Resilient",
+      "notScopes": [],
+      "parameters": {},
+      "policyDefinitionId": "/providers/Microsoft.Authorization/policySetDefinitions/130fb88f-0fc9-4678-bfe1-31022d71c7d5",
+      "scope": "${current_scope_resource_id}",
+      "enforcementMode": null
+    },
+    "location": "${default_location}",
+    "identity": {
+      "type": "None"
+    }
+  }

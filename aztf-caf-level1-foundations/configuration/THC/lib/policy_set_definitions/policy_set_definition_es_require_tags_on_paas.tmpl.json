@@ -1,0 +1,69 @@
+{
+    "name": "Require-Tags-PAAS",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+      "policyType": "Custom",
+      "displayName": "Requires a Tag  on PAAS Resources",
+      "description": "Enforces a required tag on PAAS Resources(Key Vaults, Storage accounts, Sql Server,Cosmos DB, SQL MI, Web App)",
+      "metadata": {
+        "version": "1.0.0",
+        "category": "Tags"
+      },
+      "parameters": {},
+      "policyDefinitions": [
+        {
+          "policyDefinitionReferenceId": "RequireSupportedByTag",
+          "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/msp-root/providers/Microsoft.Authorization/policyDefinitions/Require-Tags-PAAS",
+          "parameters": {
+            "tagName": {
+              "value": "SupportedBy"
+            }
+          },
+          "groupNames": []
+        },
+        {
+            "policyDefinitionReferenceId": "RequireMPGTicketRefTag",
+            "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/msp-root/providers/Microsoft.Authorization/policyDefinitions/Require-Tags-PAAS",
+            "parameters": {
+              "tagName": {
+                "value": "MPGTicketRef"
+              }
+            },
+            "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "RequireReplicationTag",
+          "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/msp-root/providers/Microsoft.Authorization/policyDefinitions/Require-Tags-PAAS",
+          "parameters": {
+            "tagName": {
+              "value": "Replication"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "RequireBusinessHoursTag",
+          "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/msp-root/providers/Microsoft.Authorization/policyDefinitions/Require-Tags-PAAS",
+          "parameters": {
+            "tagName": {
+              "value": "BusinessHours"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "RequireLBNameTag",
+          "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/msp-root/providers/Microsoft.Authorization/policyDefinitions/Require-Tags-PAAS",
+          "parameters": {
+            "tagName": {
+              "value": "LBName"
+            }
+          },
+          "groupNames": []
+        }
+      ],
+      "policyDefinitionGroups": null
+    }
+  }

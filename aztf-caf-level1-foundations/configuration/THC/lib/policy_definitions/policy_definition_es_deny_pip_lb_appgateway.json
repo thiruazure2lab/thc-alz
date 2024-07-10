@@ -1,0 +1,64 @@
+{
+  "name": "Deny-PIP-LB-AG",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "apiVersion": "2021-06-01",
+  "scope": null,
+  "properties": {
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "displayName": "Policy to restrict Application Gateway and Load Balancer with Public IP",
+    "description": "Policy to restrict Application Gateway and Load Balancer with Public IP",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Network"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "allowedValues": [
+          "Audit",
+          "Deny",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "anyOf":[
+          {
+            "allOf":[
+              {
+                "field": "type",
+                "equals": "Microsoft.Network/loadBalancers"
+              },
+              {
+                "not": {
+                  "field": "Microsoft.Network/loadBalancers/frontendIPConfigurations[*].publicIpAddress.id",
+                  "notLike": "*"
+                }
+              }
+            ]
+          },
+          {
+            "allOf":[
+              {
+                "field": "type",
+                "equals": "Microsoft.Network/applicationGateways"
+              },
+              {
+                "not": {
+                  "field": "Microsoft.Network/applicationGateways/frontendIPConfigurations[*].publicIpAddress.id",
+                  "notLike": "*"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

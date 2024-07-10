@@ -1,0 +1,21 @@
+{
+    "msp_americas_mgmt": {
+        "policy_assignments": [
+            "Deny-RDP-From-Internet",
+            "Deploy-Guest-Prereq",
+            "Audit-Sentinel-Linux",
+            "Audit-Tanium-Linux",
+            "Audit-Splunk-Linux",
+            "Audit-Sentinel-Windows",
+            "Audit-Tanium-Windows",
+            "Audit-Splunk-Windows"
+        ],
+        "policy_definitions": [],
+        "policy_set_definitions": [],
+        "role_definitions": [],
+        "archetype_config": {
+            "parameters": {},
+            "access_control": {}
+        }
+    }
+}

@@ -1,0 +1,28 @@
+{
+  "type": "Microsoft.Authorization/policyAssignments",
+  "apiVersion": "2022-06-01",
+  "name": "Deploy-AzActivity-Log",
+  "location": "${default_location}",
+  "dependsOn": [],
+  "identity": {
+    "type": "SystemAssigned"
+  },
+  "properties": {
+    "description": "Deploys the diagnostic settings for Azure Activity to stream subscriptions audit logs to a Log Analytics workspace too monitor subscription-level events",
+    "displayName": "Configure Azure Activity logs to stream to specified Log Analytics workspace",
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2465583e-4e78-4c15-b6be-a36cbc7c8b0f",
+    "enforcementMode": "Default",
+    "nonComplianceMessages": [
+      {
+        "message": "Azure Activity logs {enforcementMode} be configured to stream to specified Log Analytics workspace."
+      }
+    ],
+    "parameters": {
+      "logAnalytics": {
+        "value": "/subscriptions/9ca00828-7313-4d1a-8e50-8befc39eeb6f/resourcegroups/thc-uks-lz-mgmt-mntring-rg01/providers/microsoft.operationalinsights/workspaces/thc-aa-laworkspace"
+       }
+    },
+    "scope": "${current_scope_resource_id}",
+    "notScopes": []
+  }
+}

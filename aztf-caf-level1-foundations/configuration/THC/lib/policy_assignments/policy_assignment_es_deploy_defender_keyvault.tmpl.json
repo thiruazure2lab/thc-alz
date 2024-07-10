@@ -1,0 +1,18 @@
+{
+  "name": "Deploy-Defender-KV",
+  "type": "Microsoft.Authorization/policyAssignments",
+  "apiVersion": "2019-09-01",
+  "properties": {
+    "description": "Azure Defender for Key Vault provides an additional layer of protection and security intelligence by detecting unusual and potentially harmful attempts to access or exploit key vault accounts.",
+    "displayName": "Configure Azure Defender for Key Vaults to be enabled",
+    "notScopes": ["/subscriptions/4e8fba9a-9170-45dc-9cea-5c03d95ba729/resourceGroups/RG-A3-TF-level0","/subscriptions/4e8fba9a-9170-45dc-9cea-5c03d95ba729/resourceGroups/RG-A3-TF-level1","/subscriptions/4e8fba9a-9170-45dc-9cea-5c03d95ba729/resourceGroups/RG-A3-TF-level2","/subscriptions/4e8fba9a-9170-45dc-9cea-5c03d95ba729/resourceGroups/RG-A3-TF-level3"],
+    "parameters": {},
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1f725891-01c0-420a-9059-4fa46cb770b7",
+    "scope": "${current_scope_resource_id}",
+    "enforcementMode": null
+  },
+  "location": "${default_location}",
+  "identity": {
+    "type": "SystemAssigned"
+  }
+}

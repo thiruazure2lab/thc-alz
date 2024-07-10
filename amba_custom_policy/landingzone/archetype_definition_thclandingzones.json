@@ -1,0 +1,86 @@
+{
+    "landingzones": {
+        "policy_assignments": [
+            "Audit-Subnet-Without-Nsg",
+            "Audit-SQL-Server",
+            "Deploy-SQL-Threat",
+            "Deploy-SQL-TDE",
+            "Enable-DDoS-VNET",
+            "Deny-Privileged-AKS",
+            "Deny-Priv-Esc-AKS",
+            "Enforce-AKS-HTTPS",
+            "Audit-AppGW-WAF",
+            "Deploy-AKS-Policy",
+            "Deny-Storage-http",
+            "Deny-IP-forwarding",
+            "Deny-MgmtPorts-Internet",
+            "Enforce-TLS-SSL",
+            "Enforce-GR-KeyVault",
+            "Deploy-AMBA-Landingzone"
+            
+        ],
+        "policy_definitions": [
+            
+ 
+            "Deploy_KV_Requests_Alert",
+            "Deploy_KV_Available_Alert",
+            "Deploy_KV_Latency_Alert",
+            "Deploy_KV_Capacity_Alert",
+            "Deploy_KeyVault_Delete",
+            "Deploy_RV_BKHMonitor_Alert",
+            "Deploy_SA_Available_Alert",
+            "Deploy_StorageAcc_Delete",
+            "Deploy_PIp_BInDDoS_Alert",
+            "Deploy_PIp_DDoS_Alert",
+            "Deploy_PIp_PkDDoS_Alert",
+            "Deploy_PIp_VIPAvl_Alert",
+            "Deploy_Actlog_NSG_Delete",
+            "Deploy_RouteTable_Update",
+            "Deploy_VNET_DDoS_Alert",
+            "Deploy_VM_HeatBeat_Alert",
+            "Deploy_VM_NetwkIn_Alert",
+            "Deploy_VM_NetwkOut_Alert",
+            "Deploy_VM_OSDRLncy_Alert",
+            "Deploy_VM_OSDWLncy_Alert",
+            "Deploy_VM_OSDkSpac_Alert",
+            "Deploy_VM_CPU_Alert",
+            "Deploy_VM_Memory_Alert",
+            "Deploy_VM_dDskSpac_Alert",
+            "Deploy_VM_dDskLncy_Alert",
+            "Deploy_VM_dDkwLncy_Alert",
+            "Deploy_AG_ApGtwyTT_Alert",
+            "Deploy_AG_BkndLBRT_Alert",
+            "Deploy_AG_CapaUnit_Alert",
+            "Deploy_AG_CompUnit_Alert",
+            "Deploy_AG_CPUUtil_Alert",
+            "Deploy_AG_FailReq_Alert",
+            "Deploy_AG_RespStat_Alert",
+            "Deploy_AG_UnheHC_Alert",
+            "Deploy_ALB_DatPAvl_Alert",
+            "Deploy_ALB_GlBkAvl_Alert",
+            "Deploy_ALB_HealPSt_Alert",
+            "Deploy_ALB_UNATPor_Alert",
+            "Deploy_FDCDN_OHP_Alert",
+            "Deploy_FdCDN_P4XX_Alert",
+            "Deploy_FdCDN_P5XX_Alert",
+            "Deploy_FdCDN_OL_Alert",
+            "Deploy_TM_EndpHeal_Alert",
+            "Deploy_WSF_CPUP_Alert",
+            "Deploy_WSF_MemP_Alert",
+            "Deploy_WSF_DskQuL_Alert",
+            "Deploy_WSF_HtQuL_Alert",
+            "Deploy_FD_BkndHeal_Alert",
+            "Deploy_FD_BkndReqL_Alert"
+        ],
+        "policy_set_definitions": [
+            
+            
+            "Alerting-landingzones"
+        ],
+        "role_definitions": [],
+        "archetype_config": {
+            "parameters": {},
+            "access_control": {}
+        }
+    }
+}

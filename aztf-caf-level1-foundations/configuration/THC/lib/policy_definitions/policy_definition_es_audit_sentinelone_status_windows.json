@@ -1,0 +1,266 @@
+{
+  "name": "Audit-Sentinel-Windows",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "apiVersion": "2021-06-01",
+  "scope": null,
+  "properties": {
+    "policyType": "Custom",
+    "mode": "All",
+    "displayName": "Audit Windows machines on which Monitor SentinelOne Agent service is not installed and running",
+    "description": "Audit Windows machines on which Monitor SentinelOne Agent service is not installed and running",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Guest Configuration",
+      "guestConfiguration": {
+        "name": "MPGAuditSentinelAgentWindowsService",
+        "version": "1.0.0",
+        "contentType": "Custom",
+        "contentUri": "https://saa3guestconfig002.blob.core.windows.net/guestconfiguration/MPGAuditSentinelAgentWindowsService.zip?sv=2020-08-04&st=2022-02-22T04%3A41%3A43Z&se=2025-02-22T04%3A41%3A43Z&sr=b&sp=rl&sig=cW8acbWX2pX3iuDv7daa1Z0%2BLlix2Nk%2FNNNn6pTSb4A%3D",
+        "contentHash": "C12DBF2A4E085A714BFE57B2106663B6C8EBF962A69E75800C46851BA897C563",
+        "configurationParameter": {}
+      }
+    },
+    "parameters": {
+      "IncludeArcMachines": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Include Arc connected servers",
+          "description": "By selecting this option, you agree to be charged monthly per Arc connected machine.",
+          "portalReview": "true"
+        },
+        "allowedValues": [
+          "true",
+          "false"
+        ],
+        "defaultValue": "false"
+      },
+      "effect": {
+        "type": "String",
+        "defaultValue": "auditIfNotExists",
+        "allowedValues": [
+          "auditIfNotExists"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "anyOf": [
+          {
+            "allOf": [
+              {
+                "field": "type",
+                "equals": "Microsoft.Compute/virtualMachines"
+              },
+              {
+                "anyOf": [
+                  {
+                    "field": "Microsoft.Compute/imagePublisher",
+                    "in": [
+                      "esri",
+                      "incredibuild",
+                      "MicrosoftDynamicsAX",
+                      "MicrosoftSharepoint",
+                      "MicrosoftVisualStudio",
+                      "MicrosoftWindowsDesktop",
+                      "MicrosoftWindowsServerHPCPack"
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "field": "Microsoft.Compute/imagePublisher",
+                        "equals": "MicrosoftWindowsServer"
+                      },
+                      {
+                        "field": "Microsoft.Compute/imageSKU",
+                        "notLike": "2008*"
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "field": "Microsoft.Compute/imagePublisher",
+                        "equals": "MicrosoftSQLServer"
+                      },
+                      {
+                        "field": "Microsoft.Compute/imageOffer",
+                        "notLike": "SQL2008*"
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "field": "Microsoft.Compute/imagePublisher",
+                        "equals": "microsoft-dsvm"
+                      },
+                      {
+                        "field": "Microsoft.Compute/imageOffer",
+                        "like": "dsvm-win*"
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "field": "Microsoft.Compute/imagePublisher",
+                        "equals": "microsoft-ads"
+                      },
+                      {
+                        "field": "Microsoft.Compute/imageOffer",
+                        "in": [
+                          "standard-data-science-vm",
+                          "windows-data-science-vm"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "field": "Microsoft.Compute/imagePublisher",
+                        "equals": "batch"
+                      },
+                      {
+                        "field": "Microsoft.Compute/imageOffer",
+                        "equals": "rendering-windows2016"
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "field": "Microsoft.Compute/imagePublisher",
+                        "equals": "center-for-internet-security-inc"
+                      },
+                      {
+                        "field": "Microsoft.Compute/imageOffer",
+                        "like": "cis-windows-server-201*"
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "field": "Microsoft.Compute/imagePublisher",
+                        "equals": "pivotal"
+                      },
+                      {
+                        "field": "Microsoft.Compute/imageOffer",
+                        "like": "bosh-windows-server*"
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "field": "Microsoft.Compute/imagePublisher",
+                        "equals": "cloud-infrastructure-services"
+                      },
+                      {
+                        "field": "Microsoft.Compute/imageOffer",
+                        "like": "ad*"
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "anyOf": [
+                          {
+                            "field": "Microsoft.Compute/virtualMachines/osProfile.windowsConfiguration",
+                            "exists": "true"
+                          },
+                          {
+                            "field": "Microsoft.Compute/virtualMachines/storageProfile.osDisk.osType",
+                            "like": "Windows*"
+                          }
+                        ]
+                      },
+                      {
+                        "anyOf": [
+                          {
+                            "field": "Microsoft.Compute/imageSKU",
+                            "exists": "false"
+                          },
+                          {
+                            "allOf": [
+                              {
+                                "field": "Microsoft.Compute/imageSKU",
+                                "notLike": "2008*"
+                              },
+                              {
+                                "field": "Microsoft.Compute/imageOffer",
+                                "notLike": "SQL2008*"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "allOf": [
+              {
+                "value": "[parameters('IncludeArcMachines')]",
+                "equals": "true"
+              },
+              {
+                "anyOf": [
+                  {
+                    "allOf": [
+                      {
+                        "field": "type",
+                        "equals": "Microsoft.HybridCompute/machines"
+                      },
+                      {
+                        "field": "Microsoft.HybridCompute/imageOffer",
+                        "like": "windows*"
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "field": "type",
+                        "equals": "Microsoft.ConnectedVMwarevSphere/virtualMachines"
+                      },
+                      {
+                        "field": "Microsoft.ConnectedVMwarevSphere/virtualMachines/osProfile.osType",
+                        "like": "windows*"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]",
+        "details": {
+          "type": "Microsoft.GuestConfiguration/guestConfigurationAssignments",
+          "name": "MPGAuditSentinelAgentWindowsService",
+          "existenceCondition": {
+            "allOf": [
+              {
+                "field": "Microsoft.GuestConfiguration/guestConfigurationAssignments/complianceStatus",
+                "equals": "Compliant"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,132 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+name: Azure CAF Launchpad Deploy $(Major).$(Minor).$(Patch)
+
+variables:
+- name: Major
+  value: 1
+- name: Minor
+  value: 0
+- name: Patch
+  value: $[counter(format('{0}.{1}', variables['Major'], variables['Minor']), 0)]
+- name: ProjectName
+  value: AzureLandingZone
+- name: CAF_ENV
+  value: THC  
+- name: CompanyName
+  value: HighlandCouncil
+- name: Environment
+  value: Prod
+- group: 'CAFLandingZones'
+- group: 'AzureBuildPipeCreds'
+
+trigger: none
+
+resources:
+  repositories:
+    - repository: CAF_LandingZones
+      type: git
+      name: AzureLandingZone/CAF-Terraform-Landingzones
+  containers:
+  - container: rover
+    image: $(ROVER_IMAGE)
+    options: --user 0:0 -e TF_PLUGIN_CACHE_DIR="/home/$(ROVER_HOME_DIR)/plugin-cache" -e TF_DATA_DIR="/home/$(ROVER_HOME_DIR)"
+
+stages:
+- stage: 
+  jobs:
+  - job: LaunchpadPlan
+    displayName: "Plan"
+    pool: 
+      vmImage: 'ubuntu-latest'
+    continueOnError: false
+    workspace:
+          clean: all
+    container: rover
+    timeoutInMinutes: 600
+    steps:
+    - checkout: self   
+    - checkout: CAF_LandingZones 
+    - bash: |
+        ls -a
+        sudo mv aztf-caf-level0-launchpad /tf/caf/aztf-caf-level0-launchpad -f
+        sudo mv CAF-Terraform-Landingzones /tf/caf/CAF-Terraform-Landingzones -f
+      failOnStderr: true
+      displayName: 'Checkout'
+
+    - bash: |
+        az login --service-principal --username $(CAF_SP_CLIENTID) --password $(CAF_SP_SECRET) --tenant $(CAF_TENANTID)
+        az account set --subscription $(LAUNCHPAD_SUBSCRIPTION_ID)
+      failOnStderr: true
+      displayName: 'Login to Azure'
+
+    - bash: |
+        echo "Git Creds Setup"
+        git config --global user.name "$(CAF_Terraform_Module_User)"
+        git config --global url."https://oauth2:$(CAF_Terraform_Module_Token)@dev.azure.com/HighlandCouncil/AzureLandingZone/_git/CAF-Terraform_modules".insteadOf https://dev.azure.com/HighlandCouncil/AzureLandingZone/_git/CAF-Terraform_modules
+        /tf/rover/rover.sh -lz /tf/caf/CAF-Terraform-Landingzones/caf_launchpad \
+        -tfstate $(LAUNCHPAD_TFSTATE_FILE) \
+        -var-folder /tf/caf/aztf-caf-level0-launchpad/configuration/$(CAF_ENV) \
+        -parallelism=30 \
+        -env $(CAF_ENV) \
+        -launchpad \
+        -a plan
+      failOnStderr: true
+      displayName: 'Terraform Launchpad Plan'
+  
+  - job: waitForValidation
+    displayName: "Validate the plan"
+    continueOnError: false
+    dependsOn: "LaunchpadPlan"
+    pool: server
+    timeoutInMinutes: 2880 ## 2 day
+    steps:
+    - task: ManualValidation@0
+      timeoutInMinutes: 1440
+      inputs:
+        instructions: "Please review the plan"
+        onTimeout: reject
+        notifyUsers: $(LAUNCHPAD_PLAN_APPROVERS)
+  
+  - job: LaunchpadApply
+    displayName: "Launchad Apply"
+    dependsOn: "waitForValidation"
+    pool: 
+      vmImage: 'ubuntu-latest'
+    continueOnError: false
+    workspace:
+          clean: all
+    container: rover
+    timeoutInMinutes: 600
+    steps:
+    - checkout: self   
+    - checkout: CAF_LandingZones 
+    - bash: |
+        sudo mv aztf-caf-level0-launchpad /tf/caf/aztf-caf-level0-launchpad -f
+        sudo mv CAF-Terraform-Landingzones /tf/caf/CAF-Terraform-Landingzones -f
+      failOnStderr: true
+      displayName: 'Checkout'
+
+    - bash: |
+        az login --service-principal --username $(CAF_SP_CLIENTID) --password $(CAF_SP_SECRET) --tenant $(CAF_TENANTID)
+        az account set --subscription $(LAUNCHPAD_SUBSCRIPTION_ID)
+      failOnStderr: true
+      displayName: 'Login to Azure'
+
+    - bash: |
+        echo "Git Creds Setup"
+        git config --global user.name "$(CAF_Terraform_Module_User)"
+        git config --global url."https://oauth2:$(CAF_Terraform_Module_Token)@dev.azure.com/HighlandCouncil/AzureLandingZone/_git/CAF-Terraform_modules".insteadOf https://dev.azure.com/HighlandCouncil/AzureLandingZone/_git/CAF-Terraform_modules
+
+        /tf/rover/rover.sh -lz /tf/caf/CAF-Terraform-Landingzones/caf_launchpad \
+        -tfstate $(LAUNCHPAD_TFSTATE_FILE) \
+        -var-folder /tf/caf/aztf-caf-level0-launchpad/configuration/$(CAF_ENV) \
+        -parallelism=30 \
+        -env $(CAF_ENV) \
+        -launchpad \
+        -a apply
+      failOnStderr: true
+      displayName: 'Terraform Launchpad Deploy'

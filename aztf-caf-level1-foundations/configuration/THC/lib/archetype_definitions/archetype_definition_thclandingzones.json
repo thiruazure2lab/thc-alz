@@ -1,0 +1,32 @@
+{
+    "landingzones": {
+        "policy_assignments": [
+            "Audit-Subnet-Without-Nsg",
+            "Audit-SQL-Server",
+            "Deploy-SQL-Threat",
+            "Deploy-SQL-TDE",
+            "Deny-Privileged-AKS",
+            "Deny-Priv-Esc-AKS",
+            "Enforce-AKS-HTTPS",
+            "Audit-AppGW-WAF",
+            "Deploy-AKS-Policy",
+            "Deny-Storage-http",
+            "Deny-IP-forwarding",
+            "Deny-MgmtPorts-Internet",
+            "Enforce-TLS-SSL",
+            "Enforce-GR-KeyVault"
+        ],
+        "policy_definitions": [
+            
+        ],
+        "policy_set_definitions": [
+            
+            
+        ],
+        "role_definitions": [],
+        "archetype_config": {
+            "parameters": {},
+            "access_control": {}
+        }
+    }
+}

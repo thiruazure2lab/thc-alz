@@ -1,0 +1,96 @@
+pipeline {
+  agent {
+    docker {
+      image 'aztfmod/rover:1.0.1-2106.3012'
+      args "--env HTTP_PROXY=http:/${env.PROXY} --env HTTPS_PROXY=http://${env.PROXY}"
+      label 'aztf-caf'
+    }
+  }
+
+  options {
+    timestamps()
+    skipDefaultCheckout()
+  }
+
+  environment {
+    ROVER_RUNNER = true
+    TF_REGISTRY_CLIENT_TIMEOUT = 30
+    TF_REGISTRY_DISCOVERY_RETRY = 30
+    TF_LOG = "${env.LOG_LEVEL ? (env.LOG_LEVEL == 'DEFAULT' ? '' : env.LOG_LEVEL) : ''}"
+  }
+
+  stages {
+    stage('Clean Workspace') {
+      steps {
+        cleanWs()
+      }
+    }
+
+    stage('Checkout') {
+      steps {
+        checkout([$class: 'GitSCM', branches: [[name: "${env.CONFIG_REPO_BRANCH}"]], userRemoteConfigs: [[credentialsId: "aztf-caf-github-pat-level0", url: "https://github.com/cloud-studio-repository-org/aztf-caf-level0-launchpad.git"]]])
+        checkout([$class: 'GitSCM', branches: [[name: "${env.LOGIC_REPO_BRANCH}"]], extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: "landingzones"]], userRemoteConfigs: [[credentialsId: "aztf-caf-github-pat-level0", url: "https://github.com/cloud-studio-repository-org/caf-terraform-landingzones.git"]]])
+      }
+    }
+
+    stage('Rover Login') {
+      steps {
+        ansiColor('xterm') {
+          sh """
+            /tf/rover/rover.sh login --tenant ${env.TENANT_ID} --subscription ${env.SUBSCRIPTION_ID}
+          """
+        }
+      }
+    }
+
+    stage('Plan') {
+      steps {
+        ansiColor('xterm') {
+          sh """
+            /tf/rover/rover.sh -lz ${env.WORKSPACE}/landingzones/caf_launchpad -tfstate launchpad.tfstate -var-folder ${env.WORKSPACE}/configuration/${env.ROVER_ENV} -parallelism 10 -level level0 -env ${env.ROVER_ENV} -launchpad -a plan
+          """
+        }
+      }
+    }
+
+    stage('Approve'){
+      steps {
+        timeout(time: 72, unit: 'HOURS') {
+          input (message: "OK to apply the plan?")
+        }
+      }
+    }
+
+    stage('Patch AD Roles Script') {
+      steps {
+        ansiColor('xterm') {
+          sh """
+            cp ${env.WORKSPACE}/scripts/set_ad_role.sh /tmp/set_ad_role.sh
+            chmod +x /tmp/set_ad_role.sh
+            sed -i 's/function plan {/function plan {\\n    cp \\/tmp\\/set_ad_role.sh \\/home\\/vscode\\/.terraform.cache\\/modules\\/launchpad\\/modules\\/azuread\\/roles\\/scripts\\/set_ad_role.sh/g' /tf/rover/tfstate_azurerm.sh
+          """
+        }
+      }
+    }
+
+    stage('Apply') {
+      steps {
+        ansiColor('xterm') {
+          sh """
+            /tf/rover/rover.sh -lz ${env.WORKSPACE}/landingzones/caf_launchpad -tfstate launchpad.tfstate -var-folder ${env.WORKSPACE}/configuration/${env.ROVER_ENV} -parallelism 10 -level level0 -env ${env.ROVER_ENV} -launchpad -a apply
+          """
+        }
+      }
+    }
+
+    stage('Consolidate') {
+      steps {
+        ansiColor('xterm') {
+          sh """
+             /tf/rover/rover.sh -lz ${env.WORKSPACE}/landingzones/caf_launchpad -tfstate launchpad.tfstate -var-folder ${env.WORKSPACE}/configuration/${env.ROVER_ENV} -parallelism 10 -level level0 -env ${env.ROVER_ENV} -launchpad -a apply
+          """
+        }
+      }
+    }
+  }
+}

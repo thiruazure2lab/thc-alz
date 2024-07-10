@@ -1,0 +1,88 @@
+{
+    "name": "Audit-DNSZone-PAAS",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+      "policyType": "Custom",
+      "displayName": "Audit DNS Zone Group Configurations for Azure PaaS Private Endpoints",
+      "description": "Audit DNS Zone Group Configurations for Azure PaaS Private Endpoints(SQL,Key Vault, Storage-Table/File/Queue/Blob)",
+      "metadata": {
+        "version": "1.0.0",
+        "category": "Tags"
+      },
+      "parameters": {
+        "effect": {
+          "type": "String",
+          "allowedValues": [
+            "Audit",
+            "Disabled"
+          ],
+          "defaultValue": "Audit"
+        }
+      },
+      "policyDefinitions": [
+        {
+          "policyDefinitionReferenceId": "DNSZoneGroupSQL",
+          "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/msp-root/providers/Microsoft.Authorization/policyDefinitions/Audit-DNSZone-SQL",
+          "parameters": {
+            "effect": {
+              "value": "[parameters('effect')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "DNSZoneGroupKV",
+          "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/msp-root/providers/Microsoft.Authorization/policyDefinitions/Audit-DNSZone-KV",
+          "parameters": {
+            "effect": {
+              "value": "[parameters('effect')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "DNSZoneGroupTable",
+          "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/msp-root/providers/Microsoft.Authorization/policyDefinitions/Audit-DNSZone-Table",
+          "parameters": {
+            "effect": {
+              "value": "[parameters('effect')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "DNSZoneGroupQueue",
+          "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/msp-root/providers/Microsoft.Authorization/policyDefinitions/Audit-DNSZone-Queue",
+          "parameters": {
+            "effect": {
+              "value": "[parameters('effect')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "DNSZoneGroupFile",
+          "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/msp-root/providers/Microsoft.Authorization/policyDefinitions/Audit-DNSZone-File",
+          "parameters": {
+            "effect": {
+              "value": "[parameters('effect')]"
+            }
+          },
+          "groupNames": []
+        },
+        {
+          "policyDefinitionReferenceId": "DNSZoneGroupBlob",
+          "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/msp-root/providers/Microsoft.Authorization/policyDefinitions/Audit-DNSZone-Blob",
+          "parameters": {
+            "effect": {
+              "value": "[parameters('effect')]"
+            }
+          },
+          "groupNames": []
+        }
+      ],
+      "policyDefinitionGroups": null
+    }
+  }

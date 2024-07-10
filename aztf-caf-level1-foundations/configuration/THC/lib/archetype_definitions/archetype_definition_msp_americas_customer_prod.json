@@ -1,0 +1,44 @@
+{
+    "msp_americas_customer_prod": {
+        "policy_assignments": [
+            "Deny-RDP-From-Internet",
+            "Deny-NIC-Publicip",
+            "Audit-VM-Backup",
+            "Audit-VM-ASR",
+            "Deploy-Guest-Prereq",
+            "Audit-Sentinel-Linux",
+            "Audit-Tanium-Linux",
+            "Audit-Splunk-Linux",
+            "Audit-Sentinel-Windows",
+            "Audit-Tanium-Windows",
+            "Audit-Splunk-Windows",
+            "Deny-SA-Network-Access",
+            "Allowed-Resource",
+            "Deny-VM-NICs",
+            "Audit-AzSQL-Backup",
+            "Deny-PIP-LB-AG",
+            "Audit-SqlMI-Backup",
+            "Audit-Fileshare-Backup"
+        ],
+        "policy_definitions": [],
+        "policy_set_definitions": [],
+        "role_definitions": [],
+        "archetype_config": {
+            "parameters": {
+                "Deny-PIP-LB-AG":{
+                    "effect":"Audit"
+                },
+                "Audit-VM-Backup":{
+                    "effect":"AuditIfNotExists"  
+                },
+                "Allowed-Resource":{
+                    "listOfResourceTypesAllowed":["Microsoft.Alerts.Management*","Microsoft.ApiManagement*","Microsoft.AppAssessment*","Microsoft.Authorization*","Microsoft.Automation*","Microsoft.AzureActiveDirectory*","Microsoft.AzureData*","Microsoft.BareMetalInfrastructure*","Microsoft.Billing*","Microsoft.BillingBenfits*","Microsoft.Blueprint*","Microsoft.Cache*","Microsoft.Capacity*","Microsoft.CertificateRegistration*","Microsoft.ChangeAnalysis*","Microsoft.CognitiveServices*","Microsoft.Compute*","Microsoft.Consumption*","Microsoft.CostManagement*","Microsoft.CostManagementExports*","Microsoft.D365CustomerInsights*","Microsoft.Dashboard*","Microsoft.DataBox*","Microsoft.DataBoxEdge*","Microsoft.DataFactory*","Microsoft.DataLakeAnalytics*","Microsoft.DataLakeStore*","Microsoft.DataMigration*","Microsoft.DataProtection*","Microsoft.DataReplication*","Microsoft.DBforMariaDB*","Microsoft.DBforMySQL*","Microsoft.DBforPostgreSQL*","Microsoft.DelegatedNetwork*","Microsoft.DesktopVirtualization*","Microsoft.DevOps*","Microsoft.Diagnostics*","Microsoft.DocumentDB*","Microsoft.DomainRegistration*","Microsoft.DynamicsTelemetry*","Microsoft.EventHub*","Microsoft.Graph*","Microsoft.GuestConfiguration*","Microsoft.ImportExport*","Microsoft.Insights*","Microsoft.KeyVault*","Microsoft.Kusto*","Microsoft.MachineLearning*","Microsoft.MachineLearningServices*","Microsoft.ManagedIdentity*","Microsoft.MangedServices*","Microsoft.Management*","Microsoft.Marketplace*","Microsoft.MarketplaceNotifications*","Microsoft.MarketplaceOrdering*","Microsoft.Migrate*","Microsoft.Monitor*","Microsoft.NetApp*","Microsoft.Network*","Microsoft.OperationalInsights*","Microsoft.OperationsManagement*","Microsoft.Peering*","Microsoft.PolicyInsights*","Microsoft.Portal*","Microsoft.PowerBI*","Microsoft.PowerBIDedicated*","Microsoft.Purview*","Microsoft.Quota*","Microsoft.RecommendationsService*","Microsoft.RecoveryServices*","Microsoft.Relay*","Microsoft.ResourceGraph*","Microsoft.ResourceHealth*","Microsoft.Resources*","Microsoft.SaaS*","Microsoft.Scheduler*","Microsoft.Security*","Microsoft.SecurityGraph*","Microsoft.SecurityInsights*","Microsoft.SerialConsole*","Microsoft.ServiceBus*","Microsoft.ServicesHub*","Microsoft.Sql*","Microsoft.SqlVirtualMachine*","Microsoft.Storage*","Microsoft.StorageCache*","Microsoft.StoragePool*","Microsoft.StorageSync*","Microsoft.StreamAnalytics*","Microsoft.Subscription*","Microsoft.Support*","Microsoft.Synapse*","Microsoft.Web*","Microsoft.VirtualMachineImages*","Microsoft.WindowsESU*","Microsoft.AAD*","microsoft.aadiam*","Microsoft.Advisor*"]
+                },
+                "Deny-VM-NICs":{
+                    "effect":"Deny"
+                }
+            },
+            "access_control": {}
+        }
+    }
+}

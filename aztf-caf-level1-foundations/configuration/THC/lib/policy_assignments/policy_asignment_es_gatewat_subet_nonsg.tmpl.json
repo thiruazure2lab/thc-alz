@@ -1,0 +1,18 @@
+{
+    "name": "Deny-NSG-GatewaySubnet",
+    "type": "Microsoft.Authorization/policyAssignments",
+    "apiVersion": "2019-09-01",
+    "properties": {
+      "description": "This policy denies if a gateway subnet is configured with a network security group. Assigning a network security group to a gateway subnet will cause the gateway to stop functioning.",
+      "displayName": "Gateway subnets should not be configured with a network security group",
+      "notScopes": [],
+      "parameters": {},
+      "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/35f9c03a-cc27-418e-9c0c-539ff999d010",
+      "scope": "${current_scope_resource_id}",
+      "enforcementMode": null
+    },
+    "location": "${default_location}",
+    "identity": {
+      "type": "None"
+    }
+  }

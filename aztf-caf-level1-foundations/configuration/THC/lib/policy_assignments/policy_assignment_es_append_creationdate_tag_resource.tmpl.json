@@ -1,0 +1,18 @@
+{
+    "name": "Append-Date-Tag",
+    "type": "Microsoft.Authorization/policyAssignments",
+    "apiVersion": "2019-09-01",
+    "properties": {
+      "displayName": "Append CreationDate tag on a resource if it doesnt exits",
+    "description": "Append CreationDate tag on a resource if it doesnt exits,(UTC time)",
+      "notScopes": ["/subscriptions/4e8fba9a-9170-45dc-9cea-5c03d95ba729/resourceGroups/RG-A3-TF-level0","/subscriptions/4e8fba9a-9170-45dc-9cea-5c03d95ba729/resourceGroups/RG-A3-TF-level1","/subscriptions/4e8fba9a-9170-45dc-9cea-5c03d95ba729/resourceGroups/RG-A3-TF-level2","/subscriptions/4e8fba9a-9170-45dc-9cea-5c03d95ba729/resourceGroups/RG-A3-TF-level3"],
+      "parameters": {},
+      "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/msp-root/providers/Microsoft.Authorization/policyDefinitions/Append-Date-Tag",
+      "scope": "${current_scope_resource_id}",
+      "enforcementMode": null
+    },
+    "location": "${default_location}",
+    "identity": {
+      "type": "None"
+    }
+  }

@@ -1,0 +1,34 @@
+{
+    "name": "b51aed75-ff0e-34c5-5d75-1a498f1e6772",
+    "type": "Microsoft.Authorization/roleDefinitions",
+    "apiVersion": "2018-01-01-preview",
+    "properties": {
+      "roleName": "RBAC-CSTMAN",
+      "description": "With this role MPG user can perform cost-management and manage azure reservation",
+      "type": "customRole",
+      "permissions": [
+        {
+          "actions": [
+                      
+                      "Microsoft.Consumption/*",
+                      "Microsoft.CostManagement/*",
+                      "Microsoft.Billing/*",
+                      "Microsoft.Resources/subscriptions/read",
+                      "Microsoft.Resources/subscriptions/resourceGroups/read",
+                      "Microsoft.Support/*",
+                      "Microsoft.Advisor/configurations/read",
+                      "Microsoft.Advisor/recommendations/read",
+                      "Microsoft.Management/managementGroups/read",
+                      "Microsoft.Capacity/*",
+                      "Microsoft.Authorization/roleAssignments/read"
+                        ],
+          "notActions": [],
+          "dataActions": [],
+          "notDataActions": []
+        }
+      ],
+      "assignableScopes": [
+        "${current_scope_resource_id}"
+      ]
+    }
+  }

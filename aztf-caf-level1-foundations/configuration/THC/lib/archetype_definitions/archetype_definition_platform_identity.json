@@ -1,0 +1,21 @@
+{
+    "platform_identity": {
+        "policy_assignments": [
+
+            "Deny_creation_publicIP",
+            "Deploy-VM-Backup",
+            "Deny-MgmtPorts-Internet",
+            "Audit-Subnet-Without-Nsg"
+
+        ],
+        "policy_definitions": [
+        ],
+        "policy_set_definitions": [
+        ],
+        "role_definitions": [],
+        "archetype_config": {
+            "parameters": {},
+            "access_control": {}
+        }
+    }
+}

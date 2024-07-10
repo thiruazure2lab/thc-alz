@@ -1,0 +1,71 @@
+{
+  "name": "Audit-VM-Provider",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "apiVersion": "2021-06-01",
+  "scope": null,
+  "properties": {
+    "policyType": "Custom",
+    "mode": "All",
+    "displayName": "Audits VM created from image provider other than Microsoft and Red Hat",
+    "description": "Audits VM created from image provider other than Microsoft and Red Hat",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Compute"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allof":[
+          {
+            "field": "type",
+            "equals": "Microsoft.Compute/virtualMachines"
+          },
+          {
+            "allof":[
+              {
+                "field" : "Microsoft.Compute/imagePublisher",
+                "notlike"  : "microsoft*"
+              },
+              {
+                "field" : "Microsoft.Compute/imagePublisher",
+                "notlike"  : "RedHat*"
+              },
+              {
+                "field" : "Microsoft.Compute/imagePublisher",
+                "notlike"  : "paloalto*"
+              },
+              {
+                "field" : "Microsoft.Compute/imagePublisher",
+                "notlike"  : "cisco*"
+              },
+              {
+                "field" : "Microsoft.Compute/imagePublisher",
+                "notlike"  : "zscaler*"
+              },
+              {
+                "field" : "Microsoft.Compute/imagePublisher",
+                "notlike"  : "qualysguard*"
+              },
+              {
+                "field" : "Microsoft.Compute/imagePublisher",
+                "notlike"  : ""
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

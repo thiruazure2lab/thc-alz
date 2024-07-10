@@ -1,0 +1,24 @@
+{
+    "name": "26946e38-4f7c-c935-e905-b04537ee70a1",
+    "type": "Microsoft.Authorization/roleDefinitions",
+    "apiVersion": "2018-01-01-preview",
+    "properties": {
+      "roleName": "RBAC-CLDOWN",
+      "description": "With this role MPG user will get Owner permission in all subscription ",
+      "type": "customRole",
+      "permissions": [
+        {
+          "actions": [
+                      
+                      "*"
+                        ],
+          "notActions": [],
+          "dataActions": [],
+          "notDataActions": []
+        }
+      ],
+      "assignableScopes": [
+        "${current_scope_resource_id}"
+      ]
+    }
+  }

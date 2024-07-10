@@ -1,0 +1,23 @@
+{
+    "msp_europe": {
+        "policy_assignments": [
+           "Deny-Resource-Locations",
+           "Deploy-ActivitylogsDiag",
+           "Deploy-Sql-Security-E"
+        ],
+        "policy_definitions": [],
+        "policy_set_definitions": [],
+        "role_definitions": [],
+        "archetype_config": {
+            "parameters": {
+                "Deny-Resource-Locations":{
+                    "listOfAllowedLocations":["westeurope","northeurope"]
+                },
+                "Deploy-ActivitylogsDiag":{
+                    "logAnalytics":"/subscriptions/7d5c1179-5a2a-4b1a-a6f2-3613cfbe8053/resourcegroups/rg-e3-mgmt-monitoring/providers/microsoft.operationalinsights/workspaces/lawe3gsp001"
+                }
+            },
+            "access_control": {}
+        }
+    }
+}

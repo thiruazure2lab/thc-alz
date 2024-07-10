@@ -1,0 +1,163 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+name: Azure CAF Foundations Deploy $(Major).$(Minor).$(Patch)
+
+parameters:
+- name: env
+  displayName: Environment
+  type: string
+  default: HUB_THCALZ
+  values:
+  - HUB_THCALZ
+  - MGMT_THCALZ
+  - IDNT_THCALZ
+  - PROD_THCALZ
+  
+variables:
+- name: Major
+  value: 1
+- name: Minor
+  value: 0
+- name: Patch
+  value: $[counter(format('{0}.{1}', variables['Major'], variables['Minor']), 0)]
+- name: ProjectName
+  value: AzureLandingZone
+- name: CompanyName
+  value: HighlandCouncil
+- name: CAF_ENV
+  value: THC  
+- name: Environment
+  value: prod
+- group: 'CAFLandingZones'
+- group: 'AzureBuildPipeCreds'
+
+trigger: none
+
+resources:
+  repositories:
+    - repository: CAF_LandingZones
+      type: git
+      name: AzureLandingZone/CAF-Terraform-Landingzones
+  containers:
+  - container: rover
+    image: $(ROVER_IMAGE)
+    options: --user 0:0 -e TF_PLUGIN_CACHE_DIR="/home/$(ROVER_HOME_DIR)/plugin-cache" -e TF_DATA_DIR="/home/$(ROVER_HOME_DIR)"
+
+stages:
+- stage: 
+  jobs:
+  - job: Level3Plan
+    displayName: "Plan"
+    pool: 
+      vmImage: 'ubuntu-latest'
+    continueOnError: false
+    workspace:
+          clean: all
+    container: rover
+    timeoutInMinutes: 600
+    steps:
+    - checkout: self   
+    - checkout: CAF_LandingZones 
+    - bash: |
+        ls -a
+        sudo mv aztf-caf-level3-thc-prod /tf/caf/aztf-caf-level3-thc-prod -f
+        sudo mv CAF-Terraform-Landingzones /tf/caf/CAF-Terraform-Landingzones -f
+      failOnStderr: true
+      displayName: 'Checkout'
+
+    - bash: |
+        export tdir=`echo ${{ parameters.env }}`
+        export Target_SUBSCRIPTION_ID=`echo ${!tdir}`
+        echo ${Target_SUBSCRIPTION_ID}
+        az login --service-principal --username $(CAF_SP_CLIENTID) --password $(CAF_SP_SECRET) --tenant $(LAUNCHPAD_TENANTID)
+        az account set --subscription ${Target_SUBSCRIPTION_ID}
+      failOnStderr: true
+      displayName: 'Login to Azure'
+
+    - bash: |
+        export tdir=`echo ${{ parameters.env }}`
+        export TARGET_TFSTATE=`echo ${tdir}_L3_FILE`
+        echo ${TARGET_TFSTATE}
+        export tdir=`echo ${{ parameters.env }}`
+        export Target_SUBSCRIPTION_ID=`echo ${!tdir}`
+        export TARGET_TFSTATE_FILE=`echo ${!TARGET_TFSTATE}`
+        echo ${TARGET_TFSTATE_FILE}
+        echo "Git Creds Setup"
+        git config --global user.name "$(CAF_Terraform_Module_User)"
+        git config --global url."https://oauth2:$(CAF_Terraform_Module_Token)@dev.azure.com/HighlandCouncil/AzureLandingZone/_git/CAF-Terraform_modules".insteadOf https://dev.azure.com/HighlandCouncil/AzureLandingZone/_git/CAF-Terraform_modules
+        echo ${Target_SUBSCRIPTION_ID}
+        /tf/rover/rover.sh -lz /tf/caf/CAF-Terraform-Landingzones/caf_solution \
+        -tfstate ${TARGET_TFSTATE_FILE} \
+        -var-folder /tf/caf/aztf-caf-level3-thc-prod/configuration/$tdir \
+        -parallelism 30 \
+        -level level3 \
+        -env $(CAF_ENV) \
+        -tfstate_subscription_id $(LAUNCHPAD_SUBSCRIPTION_ID) \
+        -a plan
+      failOnStderr: true
+      displayName: 'Terraform Launchpad Plan'
+  
+  - job: waitForValidation
+    displayName: "Validate the plan"
+    continueOnError: false
+    dependsOn: "Level3Plan"
+    pool: server
+    timeoutInMinutes: 2880 ## 2 day
+    steps:
+    - task: ManualValidation@0
+      timeoutInMinutes: 1440
+      inputs:
+        instructions: "Please review the plan"
+        onTimeout: reject
+        notifyUsers: $(LAUNCHPAD_PLAN_APPROVERS)
+  
+  - job: TerraformApply
+    displayName: "Terraform Level 3 Apply"
+    dependsOn: "waitForValidation"
+    pool: 
+      vmImage: 'ubuntu-latest'
+    continueOnError: false
+    workspace:
+          clean: all
+    container: rover
+    timeoutInMinutes: 600
+    steps:
+    - checkout: self   
+    - checkout: CAF_LandingZones 
+    - bash: |
+        sudo mv aztf-caf-level3-thc-prod /tf/caf/aztf-caf-level3-thc-prod -f
+        sudo mv CAF-Terraform-Landingzones /tf/caf/CAF-Terraform-Landingzones -f
+      failOnStderr: true
+      displayName: 'Checkout'
+
+    - bash: |
+        export tdir=`echo ${{ parameters.env }}`
+        export Target_SUBSCRIPTION_ID=`echo ${!tdir}`
+        az login --service-principal --username $(CAF_SP_CLIENTID) --password $(CAF_SP_SECRET) --tenant $(LAUNCHPAD_TENANTID)
+        az account set --subscription ${Target_SUBSCRIPTION_ID}
+      failOnStderr: true
+      displayName: 'Login to Azure'
+
+    - bash: |
+        export tdir=`echo ${{ parameters.env }}`
+        export TARGET_TFSTATE=`echo ${tdir}_L3_FILE`
+        export TARGET_TFSTATE_FILE=`echo ${!TARGET_TFSTATE}`
+        export tdir=`echo ${{ parameters.env }}`
+        export Target_SUBSCRIPTION_ID=`echo ${!tdir}`
+        echo "Git Creds Setup"
+        git config --global user.name "$(CAF_Terraform_Module_User)"
+        git config --global url."https://oauth2:$(CAF_Terraform_Module_Token)@dev.azure.com/HighlandCouncil/AzureLandingZone/_git/CAF-Terraform_modules".insteadOf https://dev.azure.com/HighlandCouncil/AzureLandingZone/_git/CAF-Terraform_modules
+       
+        /tf/rover/rover.sh -lz /tf/caf/CAF-Terraform-Landingzones/caf_solution \
+        -tfstate ${TARGET_TFSTATE_FILE} \
+        -var-folder /tf/caf/aztf-caf-level3-thc-prod/configuration/$tdir \
+        -parallelism 30 \
+        -level level3 \
+        -env $(CAF_ENV) \
+        -tfstate_subscription_id $(LAUNCHPAD_SUBSCRIPTION_ID) \
+        -a apply
+      failOnStderr: true
+      displayName: 'Terraform Apply'

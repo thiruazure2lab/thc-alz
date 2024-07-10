@@ -1,0 +1,43 @@
+{
+  "name": "Audit-Automation-Cert",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "apiVersion": "2021-06-01",
+  "scope": null,
+  "properties": {
+    "policyType": "Custom",
+    "mode": "All",
+    "displayName": "Audit Automation Account certificates expiry time",
+    "description": "Raises a non-compliance if the certificate of a run as account for an Automation Account is expired or about to expire in less than 15 days",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Automation"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "defaultValue": "Audit"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Automation/automationAccounts/certificates"
+          },
+          {
+            "field": "Microsoft.Automation/automationAccounts/certificates/expiryTime",
+            "less": "[addDays(utcNow(), 15)]"
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

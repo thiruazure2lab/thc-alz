@@ -1,0 +1,21 @@
+{
+    "name": "6a237889-66e9-0381-8e03-6225f7501ce1",
+    "type": "Microsoft.Authorization/roleDefinitions",
+    "apiVersion": "2018-01-01-preview",
+    "properties": {
+        "roleName": "",
+        "description": "",
+        "type": "customRole",
+        "permissions": [
+            {
+                "actions": [],
+                "notActions": [],
+                "dataActions": [],
+                "notDataActions": []
+            }
+        ],
+        "assignableScopes": [
+            "${current_scope_resource_id}"
+        ]
+    }
+}

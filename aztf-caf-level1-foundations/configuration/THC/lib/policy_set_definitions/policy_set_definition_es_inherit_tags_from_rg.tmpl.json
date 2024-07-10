@@ -1,0 +1,109 @@
+{
+    "name": "Inhert-Tags-RG",
+    "type": "Microsoft.Authorization/policySetDefinitions",
+    "apiVersion": "2021-06-01",
+    "scope": null,
+    "properties": {
+      "policyType": "Custom",
+      "displayName": "Inherit the tags from the resource group if missing",
+      "description": "Inherit the tags from the resource group if missing(Application,Environment,Application Owner,Business Owner,Customer,Brand Name,Business Criticality,Data Classification )",
+      "metadata": {
+        "version": "1.0.0",
+        "category": "Tags"
+      },
+      "parameters": {},
+      "policyDefinitions": [
+        {
+          "policyDefinitionReferenceId": "InheritApplicationTag",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ea3f2387-9b95-492a-a190-fcdc54f7b070",
+          "parameters": {
+            "tagName": {
+              "value": "Application"
+            }
+          },
+          "groupNames": []
+        },
+        {
+            "policyDefinitionReferenceId": "InheritDescriptionTag",
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ea3f2387-9b95-492a-a190-fcdc54f7b070",
+            "parameters": {
+              "tagName": {
+                "value": "Description"
+              }
+            },
+            "groupNames": []
+        },
+        {
+            "policyDefinitionReferenceId": "InheritEnvironmentTag",
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ea3f2387-9b95-492a-a190-fcdc54f7b070",
+            "parameters": {
+              "tagName": {
+                "value": "Environment"
+              }
+            },
+            "groupNames": []
+        },
+        {
+            "policyDefinitionReferenceId": "InheritApplicationOwnerTag",
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ea3f2387-9b95-492a-a190-fcdc54f7b070",
+            "parameters": {
+              "tagName": {
+                  "value": "ApplicationOwner"
+                }
+            },
+            "groupNames": []
+        },
+        {
+            "policyDefinitionReferenceId": "InheritBusinessOwnerTag",
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ea3f2387-9b95-492a-a190-fcdc54f7b070",
+            "parameters": {
+              "tagName": {
+                  "value": "BusinessOwner"
+                }
+            },
+            "groupNames": []
+        },
+        {
+            "policyDefinitionReferenceId": "InheritCustomerTag",
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ea3f2387-9b95-492a-a190-fcdc54f7b070",
+            "parameters": {
+              "tagName": {
+                  "value": "Customer"
+                }
+            },
+            "groupNames": []
+        },
+        {
+            "policyDefinitionReferenceId": "InheritBrandNameTag",
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ea3f2387-9b95-492a-a190-fcdc54f7b070",
+            "parameters": {
+              "tagName": {
+                  "value": "BrandName"
+                }
+            },
+            "groupNames": []
+        },
+        {
+            "policyDefinitionReferenceId": "InheritBusinessCriticalityTag",
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ea3f2387-9b95-492a-a190-fcdc54f7b070",
+            "parameters": {
+              "tagName": {
+                  "value": "BusinessCriticality"
+                }
+            },
+            "groupNames": []
+        },
+        {
+            "policyDefinitionReferenceId": "InheritDataClassification Tag",
+            "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/ea3f2387-9b95-492a-a190-fcdc54f7b070",
+            "parameters": {
+              "tagName": {
+                  "value": "DataClassification"
+                }
+            },
+            "groupNames": []
+        }
+      ],
+      "policyDefinitionGroups": null
+    }
+  }

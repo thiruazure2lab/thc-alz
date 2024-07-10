@@ -1,0 +1,18 @@
+{
+  "name": "Deploy-ActivitylogsDiag",
+  "type": "Microsoft.Authorization/policyAssignments",
+  "apiVersion": "2019-09-01",
+  "properties": {
+    "description": "Configure Azure Activity Logs to stream to specified Log Analytics workspace",
+    "displayName": "Configure Azure Activity Logs to stream to specified Log Analytics workspace",
+    "notScopes": [],
+    "parameters": {},
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/2465583e-4e78-4c15-b6be-a36cbc7c8b0f",
+    "scope": "${current_scope_resource_id}",
+    "enforcementMode": null
+  },
+  "location": "${default_location}",
+  "identity": {
+    "type": "SystemAssigned"
+  }
+}

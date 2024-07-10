@@ -1,0 +1,181 @@
+{
+  "type": "Microsoft.Authorization/policyAssignments",
+  "apiVersion": "2022-06-01",
+  "name": "Deploy-Private-DNS-Zones",
+  "location": "${default_location}",
+  "dependsOn": [],
+  "identity": {
+    "type": "SystemAssigned"
+  },
+  "properties": {
+    "description": "This policy initiative is a group of policies that ensures private endpoints to Azure PaaS services are integrated with Azure Private DNS zones",
+    "displayName": "Configure Azure PaaS services to use private DNS zones",
+    "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/alz/providers/Microsoft.Authorization/policySetDefinitions/Deploy-Private-DNS-Zones",
+    "enforcementMode": "Default",
+    "nonComplianceMessages": [
+      {
+        "message": "Azure PaaS services {enforcementMode} use private DNS zones."
+      }
+    ],
+    "parameters": {
+      "azureFilePrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.afs.azure.net"
+      },
+      "azureAutomationWebhookPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.azure-automation.net"
+      },
+      "azureAutomationDSCHybridPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.azure-automation.net"
+      },
+      "azureCosmosSQLPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.documents.azure.com"
+      },
+      "azureCosmosMongoPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.mongo.cosmos.azure.com"
+      },
+      "azureCosmosCassandraPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.cassandra.cosmos.azure.com"
+      },
+      "azureCosmosGremlinPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.gremlin.cosmos.azure.com"
+      },
+      "azureCosmosTablePrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.table.cosmos.azure.com"
+      },
+      "azureDataFactoryPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.datafactory.azure.net"
+      },
+      "azureDataFactoryPortalPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.adf.azure.com"
+      },
+      "azureDatabricksPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.azuredatabricks.net"
+      },
+      "azureHDInsightPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.azurehdinsight.net"
+      },
+      "azureMigratePrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.prod.migration.windowsazure.com"
+      },
+      "azureStorageBlobPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.blob.core.windows.net"
+      },
+      "azureStorageBlobSecPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.blob.core.windows.net"
+      },
+      "azureStorageQueuePrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.queue.core.windows.net"
+      },
+      "azureStorageQueueSecPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.queue.core.windows.net"
+      },
+      "azureStorageFilePrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.file.core.windows.net"
+      },
+      "azureStorageStaticWebPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.web.core.windows.net"
+      },
+      "azureStorageStaticWebSecPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.web.core.windows.net"
+      },
+      "azureStorageDFSPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.dfs.core.windows.net"
+      },
+      "azureStorageDFSSecPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.dfs.core.windows.net"
+      },
+      "azureSynapseSQLPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.sql.azuresynapse.net"
+      },
+      "azureSynapseSQLODPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.sql.azuresynapse.net"
+      },
+      "azureSynapseDevPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.dev.azuresynapse.net"
+      },
+      "azureMediaServicesKeyPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.media.azure.net"
+      },
+      "azureMediaServicesLivePrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.media.azure.net"
+      },
+      "azureMediaServicesStreamPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.media.azure.net"
+      },
+      "azureMonitorPrivateDnsZoneId1": {
+        "value": "thc_private_dns_zones-privatelink.monitor.azure.com"
+      },
+      "azureMonitorPrivateDnsZoneId2": {
+        "value": "thc_private_dns_zones-privatelink.oms.opinsights.azure.com"
+      },
+      "azureMonitorPrivateDnsZoneId3": {
+        "value": "thc_private_dns_zones-privatelink.ods.opinsights.azure.com"
+      },
+      "azureMonitorPrivateDnsZoneId4": {
+        "value": "thc_private_dns_zones-privatelink.agentsvc.azure-automation.net"
+      },
+      "azureMonitorPrivateDnsZoneId5": {
+        "value": "thc_private_dns_zones-privatelink.blob.core.windows.net"
+      },
+      "azureWebPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.webpubsub.azure.com"
+      },
+      "azureBatchPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.thc_private_dns_zones.batch.azure.com"
+      },
+      "azureAppPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.azconfig.io"
+      },
+      "azureAsrPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.siterecovery.windowsazure.com"
+      },
+      "azureIotPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.azure-devices-provisioning.net"
+      },
+      "azureKeyVaultPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.vaultcore.azure.net"
+      },
+      "azureSignalRPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.service.signalr.net"
+      },
+      "azureAppServicesPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.azurewebsites.net"
+      },
+      "azureEventGridTopicsPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.eventgrid.azure.net"
+      },
+      "azureDiskAccessPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.blob.core.windows.net"
+      },
+      "azureCognitiveServicesPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.cognitiveservices.azure.com"
+      },
+      "azureIotHubsPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.azure-devices.net"
+      },
+      "azureEventGridDomainsPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.eventgrid.azure.net"
+      },
+      "azureRedisCachePrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.redis.cache.windows.net"
+      },
+      "azureAcrPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.azurecr.io"
+      },
+      "azureEventHubNamespacePrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.servicebus.windows.net"
+      },
+      "azureMachineLearningWorkspacePrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.api.azureml.ms"
+      },
+      "azureServiceBusNamespacePrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.servicebus.windows.net"
+      },
+      "azureCognitiveSearchPrivateDnsZoneId": {
+        "value": "thc_private_dns_zones-privatelink.search.windows.net"
+      }
+    },
+    "scope": "${current_scope_resource_id}",
+    "notScopes": []
+  }
+}

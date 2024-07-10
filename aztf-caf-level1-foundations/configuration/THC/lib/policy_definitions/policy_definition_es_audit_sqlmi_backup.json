@@ -1,0 +1,91 @@
+{
+  "name": "Audit-SqlMI-Backup",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "apiVersion": "2021-06-01",
+  "scope": null,
+  "properties": {
+    "policyType": "Custom",
+    "mode": "All",
+    "displayName": "Audit SQL Managed Instance that doesn't have backup enabled",
+    "description": "Audit SQL Managed Instance that doesn't have backup enabled",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "SQL"
+    },
+    "parameters": {
+      "effect": {
+        "type": "String",
+        "defaultValue": "Audit",
+        "allowedValues": [
+          "Audit",
+          "Disabled"
+        ],
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Sql/managedInstances"
+          },
+          {
+            "anyOf": [
+              {
+                "allOf": [
+                  {
+                    "value": "[requestContext().apiVersion]",
+                    "lessOrEquals": "2021-02-01-preview"
+                  },
+                  {
+                    "not": {
+                      "anyOf": [
+                        {
+                          "field": "Microsoft.Sql/managedInstances/storageAccountType",
+                          "equals": "LRS"
+                        },
+                        {
+                          "field": "Microsoft.Sql/managedInstances/storageAccountType",
+                          "equals": "ZRS"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "allOf": [
+                  {
+                    "value": "[requestContext().apiVersion]",
+                    "greater": "2021-02-01-preview"
+                  },
+                  {
+                    "not": {
+                      "anyOf": [
+                        {
+                          "field": "Microsoft.Sql/managedInstances/requestedBackupStorageRedundancy",
+                          "equals": "Local"
+                        },
+                        {
+                          "field": "Microsoft.Sql/managedInstances/requestedBackupStorageRedundancy",
+                          "equals": "Zone"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}

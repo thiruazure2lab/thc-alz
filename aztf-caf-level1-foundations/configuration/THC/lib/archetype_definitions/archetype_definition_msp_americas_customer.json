@@ -1,0 +1,16 @@
+{
+    "msp_americas_customer": {
+        "policy_assignments": ["Deny-RDP-From-Internet"],
+        "policy_definitions": [],
+        "policy_set_definitions": [],
+        "role_definitions": [],
+        "archetype_config": {
+            "parameters": {
+                "Deny-Resource-Locations":{
+                    "listOfAllowedLocations":["eastus2","centralus"]
+                }
+            },
+            "access_control": {}
+        }
+    }
+}

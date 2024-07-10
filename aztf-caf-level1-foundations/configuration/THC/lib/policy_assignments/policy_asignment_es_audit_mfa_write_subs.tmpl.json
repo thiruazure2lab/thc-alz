@@ -1,0 +1,18 @@
+{
+    "name": "Audit-MFA-For-Subscription-Write-Access",
+    "type": "Microsoft.Authorization/policyAssignments",
+    "apiVersion": "2019-09-01",
+    "properties": {
+      "description": "This policy audits if Multi-Factor Authentication (MFA) is enabled for all subscription accounts with write privileges to prevent a breach of accounts or resources",
+      "displayName": "MFA should be enabled accounts with write permissions on your subscription",
+      "notScopes": [],
+      "parameters": {},
+      "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/9297c21d-2ed6-4474-b48f-163f75654ce3",
+      "scope": "${current_scope_resource_id}",
+      "enforcementMode": null
+    },
+    "location": "${default_location}",
+    "identity": {
+      "type": "None"
+    }
+  }

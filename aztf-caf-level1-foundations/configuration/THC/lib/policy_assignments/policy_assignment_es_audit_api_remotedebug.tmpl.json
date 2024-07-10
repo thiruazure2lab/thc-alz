@@ -1,0 +1,18 @@
+{
+    "name": "Audit-API-Remotedebug",
+    "type": "Microsoft.Authorization/policyAssignments",
+    "apiVersion": "2019-09-01",
+    "properties": {
+      "description": "Remote debugging requires inbound ports to be opened on API apps. Remote debugging should be turned off.",
+      "displayName": "Remote debugging should be turned off for API Apps",
+      "notScopes": [],
+      "parameters": {},
+      "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/e9c8d085-d9cc-4b17-9cdc-059f1f01f19e",
+      "scope": "${current_scope_resource_id}",
+      "enforcementMode": null
+    },
+    "location": "${default_location}",
+    "identity": {
+      "type": "None"
+    }
+  }

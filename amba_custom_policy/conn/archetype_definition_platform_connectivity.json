@@ -1,0 +1,73 @@
+{
+  "platform_connectivity": {
+    "policy_assignments": [
+      "Enable-DDoS-VNET",
+      "Deploy-AMBA-connectivity"
+      
+    ],
+    "policy_definitions": [
+            
+            "Deploy_PIp_BInDDoS_Alert",
+            "Deploy_PIp_DDoS_Alert",
+            "Deploy_PIp_PkDDoS_Alert",
+            "Deploy_PIp_VIPAvl_Alert",
+            "Deploy_Actlog_NSG_Delete",
+            "Deploy_RouteTable_Update",
+            "Deploy_VNET_DDoS_Alert",
+            "Deploy_ERCR_QsDBpS_Alert",
+            "Deploy_ERCR_QsODBpS_Alrt",
+            "Deploy_VPNGw_BGPPS_Alert",
+            "Deploy_VGw_ExRtCpu_Alert",
+            "Deploy_VGw_TlB_Alert",
+            "Deploy_VGw_TlEgre_Alert",
+            "Deploy_VGw_TlIngre_Alert",
+            "Deploy_VPNGw_Bndw_Alert",
+            "Deploy_VPNGw_Egre_Alert",
+            "Deploy_VPNGw_TlEPD_Alert",
+            "Deploy_VPNGw_TlPDM_Alert",
+            "Deploy_VPNGw_Ingr_Alert",
+            "Deploy_VPNGw_TInPC_Alert",
+            "Deploy_VPNGw_TInPD_Alrt",
+            "Deploy_PDNSZ_CapUt_Alert",
+            "Deploy_PDNSZ_QV_Alert",
+            "Deploy_PDNSZ_RSCap_Alert",
+            "Deploy_DNSZ_RCaput_Alert",
+            "Deploy_ERGw_ERtBIn_Alert",
+            "Deploy_ERGw_ERtBou_Alert",
+            "Deploy_ERGw_ERtCpu_Alert",
+            "Deploy_VnetGw_TEPD_Alert",
+            "Deploy_VnetGw_TEPDM_Alrt",
+            "Deploy_VnetGw_ERBPS_Alrt",
+            "Deploy_VnetGw_TIPDM_Art",
+            "Deploy_VnetGw_TIPDC_Art",
+            "Deploy_ERCIR_BgpAvl_Alrt",
+            "Deploy_ERCIR_arpAvl_Alrt",
+            "Deploy_AFW_SNATPUt_Art",
+            "Deploy_AFW_FwHeal_Alert",
+            "Deploy_al_Firew_Delete",
+            "Deploy_al_VPNGw_Delete",
+            "Deploy_ALB_DatPAvl_Alert",
+            "Deploy_ALB_GlBkAvl_Alert",
+            "Deploy_ALB_HealPSt_Alert",
+            "Deploy_ALB_UNATPor_Alert",
+            "Deploy_ERP_ERtBIn_Alert",
+            "Deploy_ERP_ERtBou_Alert",
+            "Deploy_ERP_ERtBlp_Alert",
+            "Deploy_ERP_ERtBrxl_Alert",
+            "Deploy_ERP_ERtBrxll_Alrt",
+            "Deploy_ERP_ERtBtxl_Alert",
+            "Deploy_ERP_ERtBtxll_Art"
+
+
+    ],
+    "policy_set_definitions": [
+
+      "Alerting-connectivity"
+    ],
+    "role_definitions": [],
+    "archetype_config": {
+      "parameters": {},
+      "access_control": {}
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+    "msp_americas": {
+        "policy_assignments": [
+           "Deny-Resource-Locations",
+           "Deploy-ActivitylogsDiag",
+           "Deploy-Sql-Security-A",
+           "Deploy-NSG-FlowLogs"
+        ],
+        "policy_definitions": [],
+        "policy_set_definitions": [],
+        "role_definitions": [
+            "RBAC-CLDENG"
+        ],
+        "archetype_config": {
+            "parameters": {
+                "Deny-Resource-Locations":{
+                    "listOfAllowedLocations":["eastus2","centralus"]
+                },
+                "Deploy-ActivitylogsDiag":{
+                    "logAnalytics":"/subscriptions/4e8fba9a-9170-45dc-9cea-5c03d95ba729/resourcegroups/rg-a3-mgmt-monitoring/providers/microsoft.operationalinsights/workspaces/lawa3gsp001"
+                },
+                "Deploy-NSG-FlowLogs":{
+                    "storageId":"/subscriptions/4e8fba9a-9170-45dc-9cea-5c03d95ba729/resourceGroups/RG-A3-MGMT-Monitoring/providers/Microsoft.Storage/storageAccounts/saa3gspsiem001",
+                    "networkWatcherRG":"NetworkWatcherRG",
+                    "networkWatcherName":"NetworkWatcher",
+                    "retentionDays":"365",
+                    "lawResourceId":"/subscriptions/4e8fba9a-9170-45dc-9cea-5c03d95ba729/resourcegroups/rg-a3-mgmt-monitoring/providers/microsoft.operationalinsights/workspaces/lawa3gsp002"
+                }
+            },
+            "access_control": {}
+        }
+    }
+}

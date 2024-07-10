@@ -1,0 +1,26 @@
+{
+  "type": "Microsoft.Authorization/policyAssignments",
+  "apiVersion": "2022-06-01",
+  "name": "Deploy-monitor-baselines",
+  "location": "${default_location}",
+  "dependsOn": [],
+  "identity": {
+    "type": "SystemAssigned"
+  },
+  "properties": {
+    "displayName":"Deploy Azure Monitor Baseline Alerts for Service Health",
+    "description":"Initiative to deploy AMBA Service Health alerts to Azure services",
+    "policyDefinitionId": "/providers/Microsoft.Management/managementGroups/alz/providers/Microsoft.Authorization/policySetDefinitions/Alerting-ServiceHealth",
+    "enforcementMode": "Default",
+    "nonComplianceMessages": [
+      {
+        "message": "Azure Monitor {enforcementMode} be enabled for Monitor Baseline Alerts for Service Health"
+      }
+    ],
+    "parameters": {
+      }
+    },
+    "scope": "${current_scope_resource_id}",
+    "notScopes": []
+  }
+

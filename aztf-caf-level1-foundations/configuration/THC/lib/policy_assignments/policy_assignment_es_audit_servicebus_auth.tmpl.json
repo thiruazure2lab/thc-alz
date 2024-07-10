@@ -1,0 +1,18 @@
+{
+    "name": "Audit-SERVICEBUS-AUTH",
+    "type": "Microsoft.Authorization/policyAssignments",
+    "apiVersion": "2019-09-01",
+    "properties": {
+      "description": "Service Bus clients should not use a namespace level access policy that provides access to all queues and topics in a namespace. To align with the least privilege security model, you shoud create access policies at the entity level for queues and topics to provide access to only the specific entity",
+      "displayName": "All authorization rules except RootManageSharedAccessKey should be removed from Service Bus namespace",
+      "notScopes": [],
+      "parameters": {},
+      "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/a1817ec0-a368-432a-8057-8371e17ac6ee",
+      "scope": "${current_scope_resource_id}",
+      "enforcementMode": null
+    },
+    "location": "${default_location}",
+    "identity": {
+      "type": "None"
+    }
+  }

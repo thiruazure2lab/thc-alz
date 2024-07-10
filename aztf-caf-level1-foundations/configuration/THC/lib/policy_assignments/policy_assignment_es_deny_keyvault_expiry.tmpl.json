@@ -1,0 +1,18 @@
+{
+  "name": "Deny-Keyvault-Expiry",
+  "type": "Microsoft.Authorization/policyAssignments",
+  "apiVersion": "2019-09-01",
+  "properties": {
+    "description": "Cryptographic keys should have a defined expiration date and not be permanent. Keys that are valid forever provide a potential attacker with more time to compromise the key. It is a recommended security practice to set expiration dates on cryptographic keys.",
+    "displayName": "Key Vault keys should have an expiration date",
+    "notScopes": ["/subscriptions/4e8fba9a-9170-45dc-9cea-5c03d95ba729/resourceGroups/RG-A3-TF-level0","/subscriptions/4e8fba9a-9170-45dc-9cea-5c03d95ba729/resourceGroups/RG-A3-TF-level1","/subscriptions/4e8fba9a-9170-45dc-9cea-5c03d95ba729/resourceGroups/RG-A3-TF-level2","/subscriptions/4e8fba9a-9170-45dc-9cea-5c03d95ba729/resourceGroups/RG-A3-TF-level3","/subscriptions/4e8fba9a-9170-45dc-9cea-5c03d95ba729/resourceGroups/RG-A3-MGMT-Shared","/subscriptions/2303c1c1-58e1-45bb-976a-05185db1909d/resourceGroups/cloud-shell-storage-centralindia","/subscriptions/4ced56a6-eabb-489f-9703-974d35f07261/resourceGroups/RG-E3-GS-PRD-Firewall","/subscriptions/d62e91e5-fa6d-41ff-a000-e3714e0ba3d6/resourceGroups/RG-E4-GS-PRD-Firewall","/subscriptions/7d5c1179-5a2a-4b1a-a6f2-3613cfbe8053/resourceGroups/RG-E3-GS-PRD-ADDC","/subscriptions/dc7ad1f5-346d-4f5e-a070-f206c204ac0b/resourceGroups/RG-E4-GS-PRD-ADDC","/subscriptions/eeb69c6b-8395-4dde-8c3e-f02c32ba0b97/resourceGroups/RG-P3-GS-PRD-ADDC","/subscriptions/aa90f698-7282-4769-af85-f26af237b62d/resourceGroups/RG-P3-GS-PRD-Firewall","/subscriptions/2e6fb644-dab9-4c57-826d-6c4e4f29ad59/resourceGroups/RG-J1-GS-PRD-ADDC","/subscriptions/4c0a1ad0-48e8-41ff-93f5-418da9113c3d/resourceGroups/RG-J1-GS-PRD-Firewall","/subscriptions/e94c6e89-e712-4cc6-b628-2e72dd17aa1b/resourceGroups/RG-J2-GS-PRD-ADDC","/subscriptions/27e46b64-9844-465d-b811-3ff7be7a8648/resourceGroups/RG-J2-GS-PRD-Firewall","/subscriptions/2303c1c1-58e1-45bb-976a-05185db1909d/resourceGroups/RG-A3-GS-PRD-Firewall/providers/Microsoft.KeyVault/vaults/kva3gsp001","/subscriptions/4e8fba9a-9170-45dc-9cea-5c03d95ba729/resourceGroups/RG-A3-GS-PRD-ADDC/providers/Microsoft.KeyVault/vaults/kva3gsp002","/subscriptions/f813424b-2ed9-48b2-bcc4-d31d4fb31465/resourceGroups/RG-A4-GS-PRD-Firewall/providers/Microsoft.KeyVault/vaults/kva4gsp001","/subscriptions/bd58396b-8bb9-4f24-a898-fdb18eec40b6/resourceGroups/RG-A4-GS-PRD-ADDC/providers/Microsoft.KeyVault/vaults/kva4gsp002","/subscriptions/4ced56a6-eabb-489f-9703-974d35f07261/resourceGroups/RG-E3-GS-PRD-Firewall/providers/Microsoft.KeyVault/vaults/kve3gsp001","/subscriptions/7d5c1179-5a2a-4b1a-a6f2-3613cfbe8053/resourceGroups/RG-E3-GS-PRD-ADDC/providers/Microsoft.KeyVault/vaults/kve3gsp002","/subscriptions/d62e91e5-fa6d-41ff-a000-e3714e0ba3d6/resourceGroups/RG-E4-GS-PRD-Firewall/providers/Microsoft.KeyVault/vaults/kve4gsp001","/subscriptions/dc7ad1f5-346d-4f5e-a070-f206c204ac0b/resourceGroups/RG-E4-GS-PRD-ADDC/providers/Microsoft.KeyVault/vaults/kve4gsp002"],
+    "parameters": {},
+    "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/152b15f7-8e1f-4c1f-ab71-8c010ba5dbc0",
+    "scope": "${current_scope_resource_id}",
+    "enforcementMode": null
+  },
+  "location": "${default_location}",
+  "identity": {
+    "type": "None"
+  }
+}

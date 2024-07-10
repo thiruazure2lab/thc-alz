@@ -1,0 +1,19 @@
+{
+  "landingzones_corp": {
+    "policy_assignments": [
+      "Deny-HybridNetworking",
+      "Deny-Public-IP-On-NIC",
+      "Audit-PeDnsZones",
+      "Deny-Public-Endpoints",
+      "Deploy-Private-DNS-Zones"
+      
+    ],
+    "policy_definitions": [],
+    "policy_set_definitions": [],
+    "role_definitions": [],
+    "archetype_config": {
+      "parameters": {},
+      "access_control": {}
+    }
+  }
+}
