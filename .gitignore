@@ -390,6 +390,10 @@ healthchecksdb
 *.rar
 *.tar
 *.zip
+#doc files
+*.doc
+*.docx
+*.pdf
 
 # Logs and databases #
 ######################
