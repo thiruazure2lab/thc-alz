@@ -2,7 +2,6 @@
 
 module "enterprise_scale" {
   source  = "git::https://dev.azure.com/HighlandCouncil/AzureLandingZone/_git/caf-enterprise-modules"
-  #source = "git::https://admc-Thirupathyk:slpox5bce5r6p7g7vg27bt6he55o6mgyhfysx4fgyuqv6toxeiyq@dev.azure.com/HighlandCouncil/AzureLandingZone/_git/terraform-azurerm-caf-enterprise-scale"
 
   
 
