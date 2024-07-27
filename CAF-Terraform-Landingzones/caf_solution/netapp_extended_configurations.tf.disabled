@@ -1,0 +1,44 @@
+###################### Net app snapshot policy
+module "netapp_snapshot_policy" {
+  #source  = "aztfmod/caf/azurerm//modules/compute/virtual_machine_extensions"
+  #version = "~>5.3.2"
+  source  = "git::https://dev.azure.com/MPG-GS-Azure-MSP/MPG-GS-Azure-LandingZone/_git/caf-terraform-modules//modules/netapp/snapshot"
+  # source = "/tf/caf/aztfmod/modules/compute/virtual_machine_extensions"
+  
+  depends_on = [module.solution] 
+  
+  for_each = {
+    for key, value in try(var.storage.netapp_accounts, {}) : key => value
+    if try(value.snapshotpolicy, null) != null
+  }
+
+  account_name        = module.solution.netapp_accounts[each.key].name
+  resource_group_name = module.solution.netapp_accounts[each.key].resource_group_name
+  location            = module.solution.netapp_accounts[each.key].location
+  snapshot            = each.value.snapshotpolicy
+}
+
+############################ Net App pool
+module "netapp_pool" {
+  #source  = "aztfmod/caf/azurerm//modules/compute/virtual_machine_extensions"
+  #version = "~>5.3.2"
+  source  = "git::https://dev.azure.com/MPG-GS-Azure-MSP/MPG-GS-Azure-LandingZone/_git/caf-terraform-modules//modules/netapp/pool"
+  # source = "/tf/caf/aztfmod/modules/compute/virtual_machine_extensions"
+  
+  depends_on = [module.solution] 
+  
+  for_each = {
+    for key, value in try(var.storage.netapp_accounts, {}) : key => value
+    if try(value.pools, null) != null
+  }
+
+  global_settings     = module.solution.global_settings
+  client_config       = module.solution.client_config
+  account_name        = module.solution.netapp_accounts[each.key].name
+  resource_group_name = module.solution.netapp_accounts[each.key].resource_group_name
+  location            = module.solution.netapp_accounts[each.key].location
+  settings            = each.value.pools
+  base_tags           = var.tags
+  snapshot_policy     = module.netapp_snapshot_policy
+  vnets               = merge(tomap({ (module.solution.client_config.landingzone_key) = module.solution.networking }), try(local.remote.vnets, []))
+}

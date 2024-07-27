@@ -1,0 +1,21 @@
+variable "logic_app_standard" {
+  default = {}
+}
+
+locals {
+  vnets = merge(local.remote.vnets,module.solution.vnets)
+  private_dns = merge(local.remote.dns_zones,module.solution.dns_zones)
+  storage_accounts = merge(local.remote.storage_accounts,module.solution.storage_accounts)
+}
+
+module "logic_app_standard" {
+  source  = "git::https://dev.azure.com/MPG-GS-Azure-MSP/MPG-GS-Azure-LandingZone/_git/caf-terraform-modules//modules/azurerm_new/logic_app"
+
+  global_settings = module.solution.global_settings
+  logic_apps = var.logic_app_standard
+  client_config = module.solution.client_config
+  vnets         = local.vnets
+  private_dns   = local.private_dns
+  storage_accounts = local.storage_accounts
+  resource_groups = module.solution.resource_groups
+}
