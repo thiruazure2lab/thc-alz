@@ -1,0 +1,104 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "CapacityPoolName": {
+        "type": "string",
+        "metadata": {
+            "description": "The name of the Capacity Pool Name."
+        }
+    },
+    "VolumeName": {
+        "type": "string",
+        "metadata": {
+            "description": "The name of the Volume Name."
+        }
+    },
+    "NetAppAccName": {
+        "type": "string",
+        "metadata": {
+            "description": "The name of the NetAppAccName."
+        }
+    },
+    "location": {
+        "type": "string",
+        "defaultValue": "[resourceGroup().location]",
+        "metadata": {
+            "description": "The location of the Netapp Snapshot. Default is the location of the selected resource group."
+        }
+    },
+    "VolumeTags": {
+        "type": "object",
+        "defaultValue": {},
+        "metadata": {
+            "description": "Resource tags to associate with the Volume."
+        }
+    },
+    "capacityPoolResourceId": {
+        "type": "string",
+        "metadata": {
+            "description": "Pool Resource Id used in case of creating a volume through volume group"
+        }
+    },
+    "creationToken": {
+        "type": "string",
+        "metadata": {
+            "description": "A unique file path for the volume. Used when creating mount targets"
+        }
+    },
+    "snapshotPolicyId": {
+        "type": "string",
+        "metadata": {
+            "description": "Snapshot Policy ResourceId"
+        }
+    },
+    "protocolTypes": {
+        "type": "string",
+        "metadata": {
+            "description": "Set of protocol types, default NFSv3, CIFS for SMB protocol"
+        }
+    },
+    "subnetId": {
+        "type": "string",
+        "metadata": {
+            "description": "The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes"
+        }
+    },
+    "usageThreshold": {
+        "type": "int",
+        "metadata": {
+            "description": "Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. Minimum size is 100 GiB. Upper limit is 100TiB. Specified in bytes."
+        }
+    },
+    "resourceGroupName": {
+        "type": "string"
+    }
+  },
+    "resources": [
+    {
+        "type": "Microsoft.NetApp/netAppAccounts/capacityPools/volumes",
+        "apiVersion": "2021-10-01",
+        "name": "[concat(parameters('NetAppAccName'),'/',parameters('CapacityPoolName'),'/',parameters('VolumeName'))]",
+        "location": "[parameters('location')]",
+        "tags": "[parameters('VolumeTags')]",
+        "properties": {
+            "capacityPoolResourceId": "[parameters('capacityPoolResourceId')]",
+            "creationToken": "[parameters('creationToken')]",
+            "dataProtection": {
+                "snapshot": {
+                    "snapshotPolicyId": "[parameters('snapshotPolicyId')]"
+                }
+            },
+            "protocolTypes": "[parameters('protocolTypes')]",
+            "subnetId": "[parameters('subnetId')]",
+            "usageThreshold": "[parameters('usageThreshold')]"
+        }
+    }
+    ],
+    "outputs": {
+      "id": {
+          "type": "string",
+          "value": "[resourceId(parameters('resourceGroupName'), 'providers/Microsoft.NetApp/netAppAccounts',parameters('NetAppAccName'),'capacityPools', parameters('CapacityPoolName'),'volumes',parameters('VolumeName'))]"
+        }
+    }
+}

@@ -1,0 +1,59 @@
+terraform {
+  required_providers {
+    azurecaf = {
+      source = "aztfmod/azurecaf"
+    }
+  }
+  required_version = ">= 0.13"
+}
+
+locals {
+  module_tag = {
+    "module" = basename(abspath(path.module))
+  }
+  tags         = merge(var.base_tags, local.module_tag, try(var.settings.tags, null))
+  arm_filename = "${path.module}/volume.json"
+
+  # this is the format required by ARM templates
+  parameters_body = {
+    CapacityPoolName = {
+      value = var.pool_name
+    }
+    VolumeName = {
+      value = var.settings.name
+    }
+    location = {
+      value = var.location
+    }
+    NetAppAccName = {
+      value = var.account_name
+    }
+    VolumeTags = {
+      value = local.tags
+    }
+    capacityPoolResourceId = {
+      value = var.pool_id
+    }
+    creationToken = {
+      value = var.settings.volume_path
+    }
+    snapshotPolicyId = {
+      value = var.snapshot_policy.id
+    }
+    protocolTypes = {
+      value = var.settings.protocols
+    }
+    subnetId = {
+      value = var.subnet_id
+    }
+    usageThreshold = {
+      value = var.settings.storage_quota_in_gb
+    }
+    enabled = {
+      value = try(var.settings.enabled,true)
+    }
+    resourceGroupName = {
+      value = var.resource_group_name
+    }
+  }
+}

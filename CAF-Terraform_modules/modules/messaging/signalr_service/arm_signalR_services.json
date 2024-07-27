@@ -1,0 +1,102 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "resourceGroupName":{
+      "type": "string"
+    },
+    "location": {
+        "type": "String"
+    },
+    "signalrName": {
+        "type": "String"
+    },
+    "sku": {
+      "type": "Object",
+      "defaultValue" : {
+        "name": "Premium_P1",
+        "tier": "Premium",
+        "size": "P1",
+        "capacity": 2
+      }
+    },
+    "kind":{
+      "type": "string",
+      "defaultValue": "SignalR",
+      "allowedValues": [
+        "SignalR",
+        "RawWebSockets"
+      ]
+    },
+    "allowedOrigins":{
+      "type": "array",
+      "defaultValue": []
+    },
+    "features":{
+      "type": "array",
+      "defaultValue": []
+    },
+    "tags": {
+        "defaultValue": {},
+        "type": "Object"
+    },
+    "liveTraceConfiguration":{
+      "type": "object",
+      "defaultValue":{
+        "enabled": "true",
+        "categories": [
+            {
+                "name": "ConnectivityLogs",
+                "enabled": "true"
+            },
+            {
+                "name": "MessagingLogs",
+                "enabled": "true"
+            },
+            {
+                "name": "HttpRequestLogs",
+                "enabled": "true"
+            }
+        ]
+      }
+    },
+    "clientCertEnabled": {
+      "type": "bool"
+    }
+  },
+  "variables": {},
+  "resources": [
+      {
+          "type": "Microsoft.SignalRService/SignalR",
+          "apiVersion": "2022-02-01",
+          "name": "[parameters('signalrName')]",
+          "location": "[parameters('location')]",
+          "tags": "[parameters('tags')]",
+          "sku": "[parameters('sku')]",
+          "kind": "[parameters('kind')]",
+          "properties": {
+              "tls": {
+                  "clientCertEnabled": "[parameters('clientCertEnabled')]"
+              },
+              "features": "[parameters('features')]",
+              "liveTraceConfiguration":"[parameters('liveTraceConfiguration')]",
+              "cors": {
+                  "allowedOrigins": "[parameters('allowedOrigins')]"
+              },
+              "networkACLs": {
+                  "defaultAction": "Deny",
+                  "publicNetwork": {
+                      "allow": [],
+                      "deny": []
+                  }
+              }
+          }
+      }
+  ],
+  "outputs":{
+      "id": {
+          "type": "string",
+          "value": "[resourceId(parameters('resourceGroupName'), 'Microsoft.SignalRService/signalR', parameters('signalrName'))]"
+      }
+  }
+}

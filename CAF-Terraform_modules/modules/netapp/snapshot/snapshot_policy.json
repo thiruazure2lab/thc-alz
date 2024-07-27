@@ -1,0 +1,162 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "providerName": {
+        "type": "string",
+        "defaultValue": "Microsoft.NetApp"
+    },
+    "SnapshotPolicyName": {
+        "type": "string",
+        "metadata": {
+            "description": "The name of the Snapshot Policy."
+        }
+    },
+    "NetAppAccName": {
+        "type": "string",
+        "metadata": {
+            "description": "The name of the NetAppAccName."
+        }
+    },
+    "location": {
+        "type": "string",
+        "defaultValue": "[resourceGroup().location]",
+        "metadata": {
+            "description": "The location of the Netapp Snapshot. Default is the location of the selected resource group."
+        }
+    },
+    "SnapshotPolicyTags": {
+        "type": "object",
+        "defaultValue": {},
+        "metadata": {
+            "description": "Resource tags to associate with the Policy."
+        }
+    },
+    "DailyScheduleHour": {
+        "type": "int",
+        "metadata": {
+            "description": "Hour of the day that the snapshots will be created, valid range is from 0 to 23."
+        }
+    },
+    "DailyScheduleMinute": {
+        "type": "int",
+        "metadata": {
+            "description": "Minute of the hour that the snapshots will be created, valid range is from 0 to 59."
+        }
+    },
+    "DailyScheduleSnapshotsToKeep": {
+        "type": "int",
+        "metadata": {
+            "description": "How many hourly snapshots to keep, valid range is from 0 to 255."
+        }
+    },
+    "HourlyScheduleMinute": {
+        "type": "int",
+        "metadata": {
+            "description": "Minute of the hour that the snapshots will be created, valid range is from 0 to 59."
+        }
+    },
+    "HourlyScheduleSnapshotsToKeep": {
+        "type": "int",
+        "metadata": {
+            "description": "How many hourly snapshots to keep, valid range is from 0 to 255."
+        }
+    },
+    "MonthlyScheduleDaysofMonth": {
+        "type": "string",
+        "metadata": {
+            "description": "Resource size in bytes, current storage usage for the volume in bytes."
+        }
+    },
+    "MonthlyScheduleHour": {
+        "type": "int",
+        "metadata": {
+            "description": "Hour of the day that the snapshots will be created, valid range is from 0 to 23."
+        }
+    },
+    "MonthlyScheduleMinute": {
+        "type": "int",
+        "metadata": {
+            "description": "Minute of the hour that the snapshots will be created, valid range is from 0 to 59."
+        }
+    },
+    "MonthlyScheduleSnapshotsToKeep": {
+        "type": "int",
+        "metadata": {
+            "description": "How many hourly snapshots to keep, valid range is from 0 to 255."
+        }
+    },
+    "WeeklyScheduleDaysofWeek": {
+        "type": "string",
+        "metadata": {
+            "description": "Resource size in bytes, current storage usage for the volume in bytes."
+        }
+    },
+    "WeeklyScheduleHour": {
+        "type": "int",
+        "metadata": {
+            "description": "Hour of the day that the snapshots will be created, valid range is from 0 to 23."
+        }
+    },
+    "WeeklyScheduleMinute": {
+        "type": "int",
+        "metadata": {
+            "description": "Minute of the hour that the snapshots will be created, valid range is from 0 to 59."
+        }
+    },
+    "WeeklyScheduleSnapshotsToKeep": {
+        "type": "int",
+        "metadata": {
+            "description": "How many hourly snapshots to keep, valid range is from 0 to 255."
+        }
+    },
+    "enabled": {
+        "type": "bool",
+        "metadata": {
+            "description": "The property to decide policy is enabled or not"
+        }
+    },
+    "resourceGroupName": {
+        "type": "string"
+    }
+  },
+  "resources": [
+      {
+        "type": "Microsoft.NetApp/netAppAccounts/snapshotPolicies",
+        "apiVersion": "2021-10-01",
+        "name": "[concat(parameters('NetAppAccName'),'/',parameters('SnapshotPolicyName'))]",
+        "location": "[parameters('location')]",
+        "tags": "[parameters('SnapshotPolicyTags')]",
+        "properties": {
+          "dailySchedule": {
+            "hour": "[parameters('DailyScheduleHour')]",
+            "minute": "[parameters('DailyScheduleMinute')]",
+            "snapshotsToKeep": "[parameters('DailyScheduleSnapshotsToKeep')]"
+          },
+          "enabled": "[parameters('enabled')]",
+          "hourlySchedule": {
+            "minute": "[parameters('HourlyScheduleMinute')]",
+            "snapshotsToKeep": "[parameters('HourlyScheduleSnapshotsToKeep')]"
+          },
+          "monthlySchedule": {
+            "daysOfMonth": "[parameters('MonthlyScheduleDaysofMonth')]",
+            "hour": "[parameters('MonthlyScheduleHour')]",
+            "minute": "[parameters('MonthlyScheduleMinute')]",
+            "snapshotsToKeep": "[parameters('MonthlyScheduleSnapshotsToKeep')]"
+          },
+          "weeklySchedule": {
+            "day": "[parameters('WeeklyScheduleDaysofWeek')]",
+            "hour": "[parameters('WeeklyScheduleHour')]",
+            "minute": "[parameters('WeeklyScheduleMinute')]",
+            "snapshotsToKeep": "[parameters('WeeklyScheduleSnapshotsToKeep')]"
+          }
+        }
+      }
+  ],
+  "outputs": {
+      "id": {
+          "type": "string",
+          "value": "[resourceId(parameters('resourceGroupName'),'providers',parameters('providerName'),'netAppAccounts/snapshotPolicies',parameters('NetAppAccName'), parameters('SnapshotPolicyName'))]"
+      }
+  }
+}

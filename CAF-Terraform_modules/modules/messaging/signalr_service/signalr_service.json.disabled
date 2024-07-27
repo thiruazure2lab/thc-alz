@@ -1,0 +1,178 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+      "location": {
+          "type": "String"
+      },
+      "signalrName": {
+          "type": "String"
+      },
+      "capacity": {
+          "type": "int"
+      },
+      "skuName": {
+          "type": "String"
+      },
+      "skuTier": {
+          "type": "String"
+      },
+      "skuSize":{
+        "type": "String"
+      },
+      "kind": {
+          "type": "String"
+      },
+      "tags": {
+          "defaultValue": {},
+          "type": "Object"
+      },
+      "resourceGroupName": {
+          "type": "string"
+      },
+      "allowedOrigins": {
+        "type": "string"
+      },
+      "disableAadAuth": {
+        "type": "bool"
+      },
+      "disableLocalAuth": {
+        "type": "bool"
+      },
+      "features": {
+          "type": "Array"
+      },
+      "catogoriesEnabled": {
+          "type": "string"
+      },
+      "catogoriesName": {
+        "type": "string"
+      },
+      "liveTraceConfigurationEnabled": {
+        "type": "string"
+      },
+      "defaultAction": {
+        "type": "string"
+      },
+      "privateEndpointsAllow": {
+        "type": "string"
+      },
+      "privateEndpointsDeny": {
+        "type": "string"
+      },
+      "privateEndpointsName": {
+        "type": "string"
+      },
+      "publicNetworkAllow": {
+        "type": "string"
+      },
+      "publicNetworkDeny": {
+        "type": "string"
+      },
+      "publicNetworkAccess": {
+        "type": "string"
+      },
+      "categoriesEnabled": {
+        "type": "string"
+      },
+      "categoriesName": {
+        "type": "string"
+      },
+      "clientCertEnabled": {
+        "type": "bool"
+      },
+      "categoryPattern": {
+        "type": "string"
+      },
+      "eventPattern": {
+        "type": "string"
+      },
+      "hubPattern": {
+        "type": "string"
+      },
+      "urlTemplate":  {
+        "type": "string"
+      }
+  },
+  "resources": [
+      {
+      "type": "Microsoft.SignalRService/signalR",
+      "apiVersion": "2018-10-01",
+      "name": "[parameters('signalrName')]",
+      "location": "[parameters('location')]",
+      "tags": "[parameters('tags')]",
+      "sku": {
+        "capacity": "[parameters('capacity')]",
+        "name": "[parameters('skuName')]",
+        "tier": "[parameters('skuTier')]",
+        "size": "[parameters('skuSize')]"
+      },
+      "kind": "[parameters('kind')]",
+      "properties": {
+        "cors": {
+          "allowedOrigins": "[parameters('allowedOrigins')]"
+        },
+        "disableAadAuth": "[parameters('disableAadAuth')]",
+        "disableLocalAuth": "[parameters('disableLocalAuth')]",
+        "features": "[parameters('features')]",
+        "liveTraceConfiguration": {
+          "categories": [
+            {
+              "enabled": "[parameters('catogoriesEnabled')]",
+              "name": "[parameters('catogoriesName')]"
+            }
+          ],
+          "enabled": "[parameters('liveTraceConfigurationEnabled')]"
+        },
+        "networkACLs": {
+          "defaultAction": "[parameters('defaultAction')]",
+          "privateEndpoints": [
+            {
+              "allow": [ "[parameters('privateEndpointsAllow')]" ],
+              "deny": [ "[parameters('privateEndpointsDeny')]" ],
+              "name": "[parameters('privateEndpointsName')]"
+            }
+          ],
+          "publicNetwork": {
+            "allow": [ "[parameters('publicNetworkAllow')]" ],
+            "deny": [ "[parameters('publicNetworkDeny')]" ]
+          }
+        },
+        "publicNetworkAccess": "[parameters('publicNetworkAccess')]",
+        "resourceLogConfiguration": {
+          "categories": [
+            {
+              "enabled": "[parameters('categoriesEnabled')]",
+              "name": "[parameters('categoriesName')]"
+            }
+          ]
+        },
+        "tls": {
+          "clientCertEnabled": "[parameters('clientCertEnabled')]"
+        },
+        "upstream": {
+          "templates": [
+            {
+              /* "auth": {
+                "managedIdentity": {
+                  "resource": "[parameters('defaultAction')]"
+                },
+                "type": "[parameters('defaultAction')]"
+              }, */
+              "categoryPattern": "[parameters('categoryPattern')]",
+              "eventPattern": "[parameters('eventPattern')]",
+              "hubPattern": "[parameters('hubPattern')]",
+              "urlTemplate": "[parameters('urlTemplate')]"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "outputs":{
+      "id": {
+          "type": "string",
+          "value": "[resourceId(parameters('resourceGroupName'), 'Microsoft.SignalRService/signalR', parameters('signalrName'))]"
+      }
+  }
+}

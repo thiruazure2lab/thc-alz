@@ -1,0 +1,238 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+      "logic_app_name": {
+          "type": "string"
+      },
+      "app_service_plan_id": {
+          "type": "string"
+      },
+      "location":{
+          "type": "string"
+      },
+      "tags":{
+          "type": "object",
+          "defaultValue": {}
+      },
+      "resourceGroupName":{
+          "type": "string"
+      },
+      "virtualNetworkSubnetId":{
+        "type": "string"
+      },
+      "storageAccountName":{
+        "type": "string"
+      },
+      "functionExtensionVersion":{
+        "type": "string"
+      }
+  },
+  "variables": {},
+  "resources": [
+      {
+          "type": "Microsoft.Web/sites",
+          "apiVersion": "2021-03-01",
+          "name": "[parameters('logic_app_name')]",
+          "location": "[parameters('location')]",
+          "tags": "[parameters('tags')]",
+          "kind": "functionapp,workflowapp",
+          "identity": {
+              "type": "SystemAssigned"
+          },
+          "properties": {
+              "enabled": true,
+              "hostNameSslStates": [
+                  {
+                      "name": "[concat(parameters('logic_app_name'), '.azurewebsites.net')]",
+                      "sslState": "Disabled",
+                      "hostType": "Standard"
+                  },
+                  {
+                      "name": "[concat(parameters('logic_app_name'), '.scm.azurewebsites.net')]",
+                      "sslState": "Disabled",
+                      "hostType": "Repository"
+                  }
+              ],
+              "serverFarmId": "[parameters('app_service_plan_id')]",
+              "reserved": false,
+              "isXenon": false,
+              "hyperV": false,
+              "siteConfig": {
+                  "appSettings":[
+                    {
+                        "name": "AzureWebJobsStorage",
+                        "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', parameters('storageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value, ';EndpointSuffix=core.windows.net')]"
+                    },
+                    {
+                        "name": "FUNCTIONS_EXTENSION_VERSION",
+                        "value": "[parameters('functionExtensionVersion')]"
+                    }
+                  ],
+                  "numberOfWorkers": 1,
+                  "acrUseManagedIdentityCreds": false,
+                  "alwaysOn": false,
+                  "http20Enabled": false,
+                  "functionAppScaleLimit": 0,
+                  "minimumElasticInstanceCount": 1
+              },
+              "scmSiteAlsoStopped": false,
+              "clientAffinityEnabled": false,
+              "clientCertEnabled": false,
+              "clientCertMode": "Required",
+              "hostNamesDisabled": false,
+              "containerSize": 1536,
+              "dailyMemoryTimeQuota": 0,
+              "httpsOnly": true,
+              "redundancyMode": "None",
+              "storageAccountRequired": false,
+              "virtualNetworkSubnetId":"[parameters('virtualNetworkSubnetId')]",
+              "keyVaultReferenceIdentity": "SystemAssigned"
+          }
+      },
+      {
+        "type": "Microsoft.Web/sites/virtualNetworkConnections",
+        "apiVersion": "2021-03-01",
+        "name": "[concat(parameters('logic_app_name'), '/vnet')]",
+        "location": "Central US",
+        "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', parameters('logic_app_name'))]"
+        ],
+        "properties": {
+            "vnetResourceId": "[parameters('virtualNetworkSubnetId')]",
+            "isSwift": true
+        }
+      },
+      {
+          "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
+          "apiVersion": "2021-03-01",
+          "name": "[concat(parameters('logic_app_name'), '/ftp')]",
+          "location": "[parameters('location')]",
+          "dependsOn": [
+              "[resourceId('Microsoft.Web/sites', parameters('logic_app_name'))]"
+          ],
+          "tags": "[parameters('tags')]",
+          "properties": {
+              "allow": true
+          }
+      },
+      {
+          "type": "Microsoft.Web/sites/basicPublishingCredentialsPolicies",
+          "apiVersion": "2021-02-01",
+          "name": "[concat(parameters('logic_app_name'), '/scm')]",
+          "location": "[parameters('location')]",
+          "dependsOn": [
+              "[resourceId('Microsoft.Web/sites', parameters('logic_app_name'))]"
+          ],
+          "tags": {
+              
+          },
+          "properties": {
+              "allow": true
+          }
+      },
+      {
+          "type": "Microsoft.Web/sites/config",
+          "apiVersion": "2021-02-01",
+          "name": "[concat(parameters('logic_app_name'), '/web')]",
+          "location": "[parameters('location')]",
+          "dependsOn": [
+              "[resourceId('Microsoft.Web/sites', parameters('logic_app_name'))]"
+          ],
+          "tags": "[parameters('tags')]",
+          "properties": {
+              "numberOfWorkers": "1",
+              "defaultDocuments": [
+                  "Default.htm",
+                  "Default.html",
+                  "Default.asp",
+                  "index.htm",
+                  "index.html",
+                  "iisstart.htm",
+                  "default.aspx",
+                  "index.php"
+              ],
+              "netFrameworkVersion": "v6.0",
+              "requestTracingEnabled": false,
+              "remoteDebuggingEnabled": false,
+              "httpLoggingEnabled": false,
+              "acrUseManagedIdentityCreds": false,
+              "logsDirectorySizeLimit": 35,
+              "detailedErrorLoggingEnabled": false,
+              "publishingUsername": "[concat('$',parameters('logic_app_name'))]",
+              "scmType": "None",
+              "use32BitWorkerProcess": true,
+              "webSocketsEnabled": false,
+              "alwaysOn": false,
+              "managedPipelineMode": "Integrated",
+              "virtualApplications": [
+                  {
+                      "virtualPath": "/",
+                      "physicalPath": "site\\wwwroot",
+                      "preloadEnabled": false
+                  }
+              ],
+              "loadBalancing": "LeastRequests",
+              "autoHealEnabled": false,
+              "vnetRouteAllEnabled": false,
+              "vnetPrivatePortsCount": 0,
+              "cors": {
+                  "supportCredentials": false
+              },
+              "localMySqlEnabled": false,
+              "managedServiceIdentityId": 8406,
+              "ipSecurityRestrictions": [
+                  {
+                      "ipAddress": "Any",
+                      "action": "Allow",
+                      "priority": 1,
+                      "name": "Allow all",
+                      "description": "Allow all access"
+                  }
+              ],
+              "scmIpSecurityRestrictions": [
+                  {
+                      "ipAddress": "Any",
+                      "action": "Allow",
+                      "priority": 1,
+                      "name": "Allow all",
+                      "description": "Allow all access"
+                  }
+              ],
+              "scmIpSecurityRestrictionsUseMain": false,
+              "http20Enabled": false,
+              "minTlsVersion": "1.2",
+              "scmMinTlsVersion": "1.2",
+              "ftpsState": "AllAllowed",
+              "preWarmedInstanceCount": 1,
+              "functionAppScaleLimit": 0,
+              "functionsRuntimeScaleMonitoringEnabled": false,
+              "minimumElasticInstanceCount": 1,
+              "azureStorageAccounts": {}
+          }
+      },
+      {
+          "type": "Microsoft.Web/sites/hostNameBindings",
+          "apiVersion": "2021-02-01",
+          "name": "[concat(parameters('logic_app_name'), '/', parameters('logic_app_name'), '.azurewebsites.net')]",
+          "location": "[parameters('location')]",
+          "dependsOn": [
+              "[resourceId('Microsoft.Web/sites', parameters('logic_app_name'))]"
+          ],
+          "properties": {
+              "siteName": "[parameters('logic_app_name')]",
+              "hostNameType": "Verified"
+          }
+      }
+  ],
+  "outputs": {
+      "id": {
+          "type": "string",
+          "value": "[resourceId(parameters('resourceGroupName'), 'Microsoft.Web/sites', parameters('logic_app_name'))]"
+      },
+      "objectId": {
+        "type": "string",
+        "value": "[reference(parameters('logic_app_name'), '2021-03-01', 'Full').identity.principalId]"
+      }
+  }
+}

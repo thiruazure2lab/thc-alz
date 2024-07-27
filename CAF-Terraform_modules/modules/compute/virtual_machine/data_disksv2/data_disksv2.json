@@ -1,0 +1,85 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "diskName": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "sku": {
+      "type": "string"
+    },
+    "diskSizeGb": {
+      "type": "int",
+      "defaultValue": 128
+    },
+    "createOption": {
+      "type": "string",
+      "defaultValue": "empty"
+    },
+    "hyperVGeneration": {
+      "type": "string",
+      "defaultValue": "V1"
+    },
+    "diskEncryptionSetType": {
+      "type": "string",
+      "defaultValue": "EncryptionAtRestWithPlatformKey"
+    },
+    "maxShares": {
+      "type": "int"
+    },
+    "dataAccessAuthMode": {
+      "type": "string",
+      "defaultValue": "None"
+    },
+    "networkAccessPolicy": {
+      "type": "string",
+      "defaultValue": "DenyAll"
+    },
+    "publicNetworkAccess": {
+      "type": "string",
+      "defaultValue": "Disabled"
+    },
+    "resourceGroupName": {
+      "type": "string"
+    },
+    "sharedDiskTags": {
+      "type": "object",
+      "defaultValue": {}
+    }
+  },
+  "resources": [
+  {
+    "apiVersion": "2022-03-02",
+    "type": "Microsoft.Compute/disks",
+    "name": "[parameters('diskName')]",
+    "location": "[parameters('location')]",
+    "properties": {
+      "creationData": {
+        "createOption": "[parameters('createOption')]"
+      },
+      "diskSizeGB": "[parameters('diskSizeGb')]",
+      "maxShares": "[parameters('maxShares')]",
+      "encryption": {
+        "type": "[parameters('diskEncryptionSetType')]"
+      },
+      "dataAccessAuthMode": "[parameters('dataAccessAuthMode')]",
+      "networkAccessPolicy": "[parameters('networkAccessPolicy')]",
+      "publicNetworkAccess": "[parameters('publicNetworkAccess')]",
+      "hyperVGeneration": "[parameters('hyperVGeneration')]"
+    },
+    "sku": {
+      "name": "[parameters('sku')]"
+    },
+    "tags": "[parameters('sharedDiskTags')]"
+  }
+  ],
+  "outputs": {
+    "id": {
+      "type": "string",
+      "value": "[resourceId(parameters('resourceGroupName'), 'Microsoft.Compute/disks', parameters('diskName'))]"
+    }
+  }
+}

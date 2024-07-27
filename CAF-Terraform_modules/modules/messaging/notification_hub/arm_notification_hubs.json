@@ -1,0 +1,65 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2014-04-01-preview/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+      "location": {
+          "type": "String"
+      },
+      "namespaceName": {
+          "type": "String"
+      },
+      "notificationHubName": {
+          "type": "String"
+      },
+      "skuName": {
+          "type": "String"
+      },
+      "tags": {
+          "defaultValue": {},
+          "type": "Object"
+      },
+      "resourceGroupName": {
+          "type": "string"
+      }
+  },
+  "resources": [
+      {
+          "type": "Microsoft.NotificationHubs/namespaces",
+          "apiVersion": "2017-04-01",
+          "name": "[parameters('namespaceName')]",
+          "location": "[parameters('location')]",
+          "sku": {
+              "name": "[parameters('skuName')]"
+          },
+          "properties": {
+              "name": "[parameters('namespaceName')]",
+              "region": "[parameters('location')]",
+              "namespaceType": 1
+          },
+          "resources": [
+              {
+                  "type": "notificationHubs",
+                  "apiVersion": "2017-04-01",
+                  "name": "[parameters('notificationHubName')]",
+                  "location": "[parameters('location')]",
+                  "dependsOn": [
+                      "[concat('Microsoft.NotificationHubs/namespaces/', parameters('namespaceName'))]"
+                  ],
+                  "tags": "[parameters('tags')]",
+                  "sku": {
+                      "name": "[parameters('skuName')]"
+                  },
+                  "properties": {
+                      "name": "[parameters('notificationHubName')]"
+                  }
+              }
+          ]
+      }
+  ],
+  "outputs":{
+      "id": {
+          "type": "string",
+          "value": "[resourceId(parameters('resourceGroupName'), 'Microsoft.NotificationHubs/namespaces', parameters('namespaceName'))]"
+      }
+  }
+}

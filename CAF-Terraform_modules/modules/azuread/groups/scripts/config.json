@@ -1,0 +1,10 @@
+{
+	"tenant": "manpowergroupapps.onmicrosoft.com",
+	"clientID": "06f27270-1378-4181-b721-5a5e9ae9e100",
+	"scope": "https://graph.microsoft.com/.default",
+
+	"endpoints": {
+		"oauth": "https://login.microsoftonline.com/%s/oauth2/v2.0/token",
+		"graph": "https://graph.microsoft.com/beta"
+	}
+}
