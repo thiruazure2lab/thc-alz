@@ -1,0 +1,68 @@
+C:\Users\TH371777\Downloads\cloud\azure\az-cli\bin
+C:\Users\TH371777\Downloads\cloud\azure\alz\alz1
+C:\Users\TH371777\AppData\Local\Programs\Git\bin
+
+$env:Path                             # shows the actual content
+$env:Path = 'C:\Users\TH371777\Downloads\cloud\azure\alz\thiru\thc-alz;' + $env:Path     # attach to the beginning
+$env:Path = 'C:\Users\TH371777\Downloads\cloud\azure\alz\alz1;' + $env:Path     # attach to the beginning
+$env:Path = 'C:\Users\TH371777\Downloads\cloud\azure\az-cli\bin;' + $env:Path     # attach to the beginning
+$env:Path = 'C:\Users\TH371777\AppData\Local\Programs\Git\bin;' + $env:Path     # attach to the beginning
+$env:Path = 'C:\Users\TH371777\AppData\Local\Programs\Python\Python312\;' + $env:Path     # attach to the beginning
+git config --system core.longpaths true
+git config user.email "thiruazure2lab@gmail.com"
+git config user.name "thiruazure2lab"
+clear
+
+
+az aks enable-addons --resource-group terraform-aks-dev --name terraform-aks-dev-cluster --addons virtual-node --subnet-name aks-subnet
+
+
+$env:Path += ';C:\foo'                # attach to the end
+
+git remote add origin https://thiruaws2lab:glpat-4Md_G4xbEvPzFUjJnN6G@gitlab.com/thiruaws2lab-org/vpc_and_ec2_source_code_updated.git
+git clone https://thiruaws2lab:glpat-4Md_G4xbEvPzFUjJnN6G@gitlab.com/thiruaws2lab-org/vpc_and_ec2_source_code_updated.git
+
+git branch -M main
+git push -uf origin main
+
+
+#/bin/sh
+#images
+docker image rm -f $(docker images -a | grep -v "minikube" | awk 'NR>1 {print $3}')
+
+#container
+docker container rm -f $(docker ps -a | grep -v "minikube" | awk 'NR>1 {print $1}')
+
+
+
+
+
+
+
+        stage("Docker Build & Push"){
+            steps{
+                script{
+                   withDockerRegistry(credentialsId: '58be877c-9294-410e-98ee-6a959d73b352', toolName: 'docker') {
+                        
+                        sh "docker build -t image1 ."
+                        sh "docker tag image1 adijaiswal/pet-clinic123:latest "
+                        sh "docker push adijaiswal/pet-clinic123:latest "
+                    }
+                }
+            }
+        }
+
+
+
+ stages {
+        stage('Build image') {
+            steps {
+                echo 'Starting to build docker image'
+
+                script {
+                    def customImage = docker.build("my-image:${env.BUILD_ID}")
+                    customImage.push()
+                }
+            }
+        }
+    }
