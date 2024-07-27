@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: level0
+  namespace: level0
+spec:
+  type: LoadBalancer
+  selector:
+    app: level0
+  ports:
+    - protocol: TCP
+      port: 8090
+      targetPort: 8090
