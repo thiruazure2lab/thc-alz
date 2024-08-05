@@ -7,19 +7,19 @@ name: Azure CAF Launchpad Deploy $(Major).$(Minor).$(Patch)
 
 variables:
 - name: Major
-  value: 1
+  value: "1"
 - name: Minor
-  value: 0
+  value: "0"
 - name: Patch
-  value: $[counter(format('{0}.{1}', variables['Major'], variables['Minor']), 0)]
+  value: "$[counter(format('{0}.{1}', variables['Major'], variables['Minor']), 0)]"
 - name: ProjectName
-  value: AzureLandingZone
+  value: "AzureLandingZone"
 - name: CAF_ENV
-  value: THC  
+  value: "THC"
 - name: CompanyName
-  value: HighlandCouncil
+  value: "HighlandCouncil"
 - name: Environment
-  value: Prod
+  value: "Prod"
 - group: 'CAFLandingZones'
 - group: 'AzureBuildPipeCreds'
 
@@ -36,17 +36,17 @@ resources:
     options: --user 0:0 -e TF_PLUGIN_CACHE_DIR="/home/$(ROVER_HOME_DIR)/plugin-cache" -e TF_DATA_DIR="/home/$(ROVER_HOME_DIR)"
 
 stages:
-- stage: 
+- stage: Deploy
   jobs:
   - job: LaunchpadPlan
     displayName: "Plan"
     pool: 
       vmImage: 'ubuntu-latest'
-    continueOnError: false
+    continueOnError: "false"
     workspace:
           clean: all
-    container: rover
-    timeoutInMinutes: 600
+    container: "rover"
+    timeoutInMinutes: "600"
     steps:
     - checkout: self   
     - checkout: CAF_LandingZones 
@@ -54,13 +54,13 @@ stages:
         ls -a
         sudo mv aztf-caf-level0-launchpad /tf/caf/aztf-caf-level0-launchpad -f
         sudo mv CAF-Terraform-Landingzones /tf/caf/CAF-Terraform-Landingzones -f
-      failOnStderr: true
+      failOnStderr: "true"
       displayName: 'Checkout'
 
     - bash: |
         az login --service-principal --username $(CAF_SP_CLIENTID) --password $(CAF_SP_SECRET) --tenant $(CAF_TENANTID)
         az account set --subscription $(LAUNCHPAD_SUBSCRIPTION_ID)
-      failOnStderr: true
+      failOnStderr: "true"
       displayName: 'Login to Azure'
 
     - bash: |
@@ -74,15 +74,15 @@ stages:
         -env $(CAF_ENV) \
         -launchpad \
         -a plan
-      failOnStderr: true
+      failOnStderr: "true"
       displayName: 'Terraform Launchpad Plan'
   
   - job: waitForValidation
     displayName: "Validate the plan"
-    continueOnError: false
+    continueOnError: "false"
     dependsOn: "LaunchpadPlan"
     pool: server
-    timeoutInMinutes: 2880 ## 2 day
+    timeoutInMinutes: "2880" ## 2 day
     steps:
     - task: ManualValidation@0
       timeoutInMinutes: 1440
@@ -96,24 +96,24 @@ stages:
     dependsOn: "waitForValidation"
     pool: 
       vmImage: 'ubuntu-latest'
-    continueOnError: false
+    continueOnError: "false"
     workspace:
           clean: all
     container: rover
-    timeoutInMinutes: 600
+    timeoutInMinutes: "600"
     steps:
     - checkout: self   
     - checkout: CAF_LandingZones 
     - bash: |
         sudo mv aztf-caf-level0-launchpad /tf/caf/aztf-caf-level0-launchpad -f
         sudo mv CAF-Terraform-Landingzones /tf/caf/CAF-Terraform-Landingzones -f
-      failOnStderr: true
+      failOnStderr: "true"
       displayName: 'Checkout'
 
     - bash: |
         az login --service-principal --username $(CAF_SP_CLIENTID) --password $(CAF_SP_SECRET) --tenant $(CAF_TENANTID)
         az account set --subscription $(LAUNCHPAD_SUBSCRIPTION_ID)
-      failOnStderr: true
+      failOnStderr: "true"
       displayName: 'Login to Azure'
 
     - bash: |
@@ -128,5 +128,5 @@ stages:
         -env $(CAF_ENV) \
         -launchpad \
         -a apply
-      failOnStderr: true
+      failOnStderr: "true"
       displayName: 'Terraform Launchpad Deploy'
