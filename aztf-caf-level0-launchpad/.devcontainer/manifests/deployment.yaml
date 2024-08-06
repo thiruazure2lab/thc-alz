@@ -6,7 +6,17 @@ metadata:
     app: level0
   namespace: level0
 spec:
-  replicas: 1
+  replicas: 2
+  strategy:
+    type: rollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  revisionHistoryLimit: 5
+  progressDeadlineSeconds: 600
+
+   
   selector:
     matchLabels:
       app: level0
