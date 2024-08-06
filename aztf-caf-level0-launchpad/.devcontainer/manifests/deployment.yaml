@@ -5,18 +5,7 @@ metadata:
   labels:
     app: level0
   namespace: level0
-spec:
-  replicas: 2
-  strategy:
-    type: rollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-  minReadySeconds: 5
-  revisionHistoryLimit: 5
-  progressDeadlineSeconds: 600
-
-   
+spec:   
   selector:
     matchLabels:
       app: level0
@@ -24,7 +13,14 @@ spec:
     metadata:
       labels:
         app: level0
+        version: v1
     spec:
+      replicas: 3
+      strategy:
+        type: RollingUpdate
+        rollingUpdate:
+          maxSurge: 1
+          maxUnavailable: 1
       containers:
         - name: level0
           image: thiruazure2labacr.azurecr.io/custom1aksnginxapp1:32

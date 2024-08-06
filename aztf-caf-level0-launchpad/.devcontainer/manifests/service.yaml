@@ -3,10 +3,13 @@ kind: Service
 metadata:
   name: level0
   namespace: level0
+  labels:
+    app: level0
 spec:
   type: LoadBalancer
   selector:
     app: level0
+    version: v1
   ports:
     - protocol: TCP
       port: 8090
