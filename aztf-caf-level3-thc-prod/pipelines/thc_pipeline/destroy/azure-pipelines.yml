@@ -7,9 +7,9 @@ name: Azure CAF Launchpad Destroy $(Major).$(Minor).$(Patch)
 
 variables:
 - name: Major
-  value: 1
+  value: '1'
 - name: Minor
-  value: 0
+  value: '0'
 - name: Patch
   value: $[counter(format('{0}.{1}', variables['Major'], variables['Minor']), 0)]
 - name: ProjectName
@@ -33,13 +33,13 @@ resources:
     options: --user 0:0 -e TF_PLUGIN_CACHE_DIR="/home/$(ROVER_HOME_DIR)/plugin-cache" -e TF_DATA_DIR="/home/$(ROVER_HOME_DIR)"
 
 stages:
-- stage: 
+- stage: Destroy
   jobs:
   - job: waitForValidation
     displayName: "Confirm You want to Destroy Launhpad"
-    continueOnError: false
+    continueOnError: 'false'
     pool: server
-    timeoutInMinutes: 2880 ## 2 day
+    timeoutInMinutes: '2880' ## 2 day
     steps:
     - task: ManualValidation@0
       timeoutInMinutes: 1440
@@ -53,24 +53,24 @@ stages:
     dependsOn: "waitForValidation"
     pool: 
       vmImage: 'ubuntu-latest'
-    continueOnError: false
+    continueOnError: 'false'
     workspace:
           clean: all
     container: rover
-    timeoutInMinutes: 600
+    timeoutInMinutes: '600'
     steps:
     - checkout: self   
     - checkout: CAF_LandingZones 
     - bash: |
         sudo mv aztf-caf-level0-launchpad /tf/caf/aztf-caf-level0-launchpad -f
         sudo mv caf-terraform-landingzones /tf/caf/caf-terraform-landingzones -f
-      failOnStderr: true
+      failOnStderr: 'true'
       displayName: 'Checkout'
 
     - bash: |
         az login --service-principal --username $(CAF_LAUNCHPAD_SP_CLIENTID) --password $(CAF_LAUNCHPAD_SP_SECRET) --tenant $(LAUNCHPAD_TENANTID)
         az account set --subscription $(LAUNCHPAD_SUBSCRIPTION_ID)
-      failOnStderr: true
+      failOnStderr: 'true'
       displayName: 'Login to Azure'
 
     - bash: |
@@ -84,5 +84,5 @@ stages:
         -env $(CAF_ENV) \
         -launchpad \
         -a destroy
-      failOnStderr: true
+      failOnStderr: 'true'
       displayName: 'Terraform Launchpad Deploy'
